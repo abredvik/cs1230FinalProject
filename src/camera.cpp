@@ -76,6 +76,16 @@ void Camera::translate(float forward, float right, float up) {
     invViewMatrix = glm::inverse(viewMatrix);
 }
 
+void Camera::updatePos(glm::vec4 xyz) {
+    position = xyz;
+
+    glm::vec3 pos3(position);
+    viewMatrix[3][0] = -glm::dot(pos3, u);
+    viewMatrix[3][1] = -glm::dot(pos3, v);
+    viewMatrix[3][2] = -glm::dot(pos3, w);
+    invViewMatrix = glm::inverse(viewMatrix);
+}
+
 void Camera::rotateAxes(float angleDeg, glm::vec3 axis) {
     glm::vec3 ax = glm::normalize(axis);
     float x = ax[0];

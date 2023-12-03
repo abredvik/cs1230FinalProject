@@ -32,6 +32,8 @@ public:
 
     void translateCam(float forward, float right, float up);
 
+    void updateCamPos(glm::vec4 xyz);
+
     void rotateCam(float deltaX, float deltaY);
 
     void updateCamProjMatrix(int width, int height, float near, float far);

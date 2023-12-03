@@ -26,6 +26,8 @@ public:
 
     void translate(float forward, float right, float up);
 
+    void updatePos(glm::vec4 xyz);
+
     void rotate(float deltaX, float deltaY);
 
     void updateProjMatrix(int width, int height, float near, float far);

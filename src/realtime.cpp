@@ -97,7 +97,7 @@ void Realtime::resizeGL(int w, int h) {
 
     width = w;
     height = h;
-    currentScene.updateCamProjMatrix(w, h, settings.nearPlane, settings.farPlane);
+    currentScene.updateCamProjMatrix(m_screen_width, m_screen_height, settings.nearPlane, settings.farPlane);
 }
 
 void Realtime::sceneChanged() {
