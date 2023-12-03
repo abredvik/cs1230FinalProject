@@ -92,8 +92,8 @@ void Realtime::resizeGL(int w, int h) {
     m_screen_height = size().height() * m_devicePixelRatio;
 
     // Task 34: Regenerate your FBOs
-    phongShader.updateViewport(w, h, defaultFBO);
-    textureShader.updateViewport(w, h, defaultFBO);
+    phongShader.updateViewport(m_screen_width, m_screen_height, defaultFBO);
+    textureShader.updateViewport(m_screen_width, m_screen_height, defaultFBO);
 
     width = w;
     height = h;
