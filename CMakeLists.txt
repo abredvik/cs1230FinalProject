@@ -41,6 +41,8 @@ add_executable(${PROJECT_NAME}
     src/utils/sceneparser.h
     src/utils/shaderloader.h
     src/utils/aspectratiowidget/aspectratiowidget.hpp
+    src/utils/terraingenerator.h
+    src/utils/terraingenerator.cpp
     src/camera.h src/camera.cpp
     src/shapes/cube.h src/shapes/cube.cpp
     src/shapes/cone.h src/shapes/cone.cpp

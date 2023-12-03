@@ -28,6 +28,10 @@ void Scene::translateCam(float forward, float right, float up) {
     camera.translate(forward, right, up);
 }
 
+void Scene::updateCamPos(glm::vec4 xyz) {
+    camera.updatePos(xyz);
+}
+
 void Scene::rotateCam(float deltaX, float deltaY) {
     camera.rotate(deltaX, deltaY);
 }
