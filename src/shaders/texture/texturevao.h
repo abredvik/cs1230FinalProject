@@ -1,7 +1,7 @@
 #pragma once
 
 #include "texturevbo.h"
-#include "vao.h"
+#include "../vao.h"
 
 class TextureVAO : public VAO
 {

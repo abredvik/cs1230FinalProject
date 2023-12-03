@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shader.h"
+#include "../shader.h"
 #include "texturevao.h"
 
 class TextureShader : public Shader
@@ -8,11 +8,11 @@ class TextureShader : public Shader
 public:
     TextureShader();
 
-    void updateViewport(int width, int height, GLuint default_fbo);
+    void updateViewport(int width, int height, GLuint fbo, GLuint default_fbo);
 
     void updateTexture(GLuint texID);
 
-    void createShader(int width, int height);
+    void createShader(int width, int height, GLuint fbo);
 
     void draw();
 

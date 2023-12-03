@@ -1,5 +1,5 @@
 #include "phongShader.h"
-#include "openglwrappers.h"
+#include "../openglwrappers.h"
 #include "shapes/cone.h"
 #include "shapes/cube.h"
 #include "shapes/cylinder.h"
@@ -16,18 +16,13 @@ PhongShader::PhongShader() : vao_cube(&unitCube), vao_cone(&unitCone), vao_cylin
 
 }
 
-void PhongShader::updateViewport(int width, int height, GLuint default_fbo) {
+void PhongShader::updateViewport(int width, int height, GLuint fbo, GLuint default_fbo) {
     //    if (fbo_width == width && fbo_height == height) return;
     defaultFBO = default_fbo;
-
-    // Task 34: Delete Texture, Renderbuffer, and Framebuffer memory
-    fbo.deleteFBO();
+    id_fbo = fbo;
 
     screen_width = width;
     screen_height = height;
-
-    // Task 34: Regenerate your FBOs
-    fbo.makeFBO(defaultFBO, width, height);
 }
 
 void PhongShader::updateShapeData(int param1, int param2) {
@@ -37,9 +32,10 @@ void PhongShader::updateShapeData(int param1, int param2) {
     vao_sphere.updateShapeData(param1, param2);
 }
 
-void PhongShader::createShader(int width, int height) {
+void PhongShader::createShader(int width, int height, GLuint fbo) {
     screen_width = width;
     screen_height = height;
+    id_fbo = fbo;
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -51,14 +47,11 @@ void PhongShader::createShader(int width, int height) {
     vao_cone.createVAO();
     vao_cylinder.createVAO();
     vao_sphere.createVAO();
-
-    // create FBO
-    fbo.makeFBO(defaultFBO, screen_width, screen_height);
 }
 
 void PhongShader::draw() {
     // bind framebuffer
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo.getID());
+    glBindFramebuffer(GL_FRAMEBUFFER, id_fbo);
 
     // update viewport
     glViewport(0, 0, screen_width, screen_height);
