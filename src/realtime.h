@@ -2,8 +2,10 @@
 
 // Defined before including GLEW to suppress deprecation messages on macOS
 #include "scene.h"
-#include "shaders/phongshader.h"
-#include "shaders/textureshader.h"
+#include "shaders/fbo.h"
+#include "shaders/phong/phongshader.h"
+#include "shaders/terrain/terrainshader.h"
+#include "shaders/texture/textureshader.h"
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
 #endif
@@ -62,6 +64,8 @@ private:
     int prev_param1;
     int prev_param2;
 
-    PhongShader phongShader;
+    FBO fbo;
+//    PhongShader phongShader;
     TextureShader textureShader;
+    TerrainShader terrainShader;
 };

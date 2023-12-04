@@ -5,9 +5,9 @@
 class Shader
 {
 public:
-    virtual void updateViewport(int width, int height, GLuint default_fbo) = 0;
+    virtual void updateViewport(int width, int height, GLuint fbo, GLuint default_fbo) = 0;
 
-    virtual void createShader(int width, int height) = 0;
+    virtual void createShader(int width, int height, GLuint id_fbo) = 0;
 
     virtual void draw() = 0;
 

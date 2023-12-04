@@ -52,17 +52,20 @@ add_executable(${PROJECT_NAME}
 
     src/debug.h
     src/shaders/openglwrappers.h
-    src/shaders/phongvbo.h src/shaders/phongvbo.cpp
+    src/shaders/phong/phongvbo.h src/shaders/phong/phongvbo.cpp
     src/shapes/shape.h src/shapes/shape.cpp
-    src/shaders/phongvao.h src/shaders/phongvao.cpp
-    src/shaders/phongshader.h src/shaders/phongshader.cpp
+    src/shaders/phong/phongvao.h src/shaders/phong/phongvao.cpp
+    src/shaders/phong/phongshader.h src/shaders/phong/phongshader.cpp
     src/shaders/fbo.h src/shaders/fbo.cpp
     src/shaders/shader.h src/shaders/shader.cpp
-    src/shaders/textureshader.h src/shaders/textureshader.cpp
+    src/shaders/texture/textureshader.h src/shaders/texture/textureshader.cpp
     src/shaders/vao.h src/shaders/vao.cpp
     src/shaders/vbo.h src/shaders/vbo.cpp
-    src/shaders/texturevbo.h src/shaders/texturevbo.cpp
-    src/shaders/texturevao.h src/shaders/texturevao.cpp
+    src/shaders/texture/texturevbo.h src/shaders/texture/texturevbo.cpp
+    src/shaders/texture/texturevao.h src/shaders/texture/texturevao.cpp
+    src/shaders/terrain/terrainshader.h src/shaders/terrain/terrainshader.cpp
+    src/shaders/terrain/terrainvao.h src/shaders/terrain/terrainvao.cpp
+    src/shaders/terrain/terrainvbo.h src/shaders/terrain/terrainvbo.cpp
 
 
 )
@@ -89,10 +92,12 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
     PREFIX
         "/"
     FILES
-        resources/shaders/default.frag
-        resources/shaders/default.vert
+        resources/shaders/phong.frag
+        resources/shaders/phong.vert
         resources/shaders/texture.frag
         resources/shaders/texture.vert
+        resources/shaders/terrain.frag
+        resources/shaders/terrain.vert
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

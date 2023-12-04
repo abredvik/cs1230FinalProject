@@ -1,11 +1,11 @@
 #pragma once
 
-#include "vbo.h"
+#include "../vbo.h"
 
-class TextureVBO : public VBO
+class TerrainVBO : public VBO
 {
 public:
-    TextureVBO();
+    TerrainVBO();
 
     const int getNumVertices() const;
 
@@ -15,4 +15,3 @@ public:
 
     void deleteVBO();
 };
-

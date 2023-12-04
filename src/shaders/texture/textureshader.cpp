@@ -9,7 +9,7 @@ TextureShader::TextureShader()
 
 }
 
-void TextureShader::updateViewport(int width, int height, GLuint default_fbo) {
+void TextureShader::updateViewport(int width, int height, GLuint fbo, GLuint default_fbo) {
     screen_width = width;
     screen_height = height;
     defaultFBO = default_fbo;
@@ -19,7 +19,7 @@ void TextureShader::updateTexture(GLuint texID) {
     id_texture = texID;
 }
 
-void TextureShader::createShader(int width, int height) {
+void TextureShader::createShader(int width, int height, GLuint fbo) {
     screen_width = width;
     screen_height = height;
 
