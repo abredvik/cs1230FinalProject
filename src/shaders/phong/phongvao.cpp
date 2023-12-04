@@ -36,6 +36,10 @@ void PhongVAO::createVAO() {
     Debug::glErrorCheck();
 }
 
+void PhongVAO::updateVertexData(const std::vector<float>& data) {
+    vbo.updateVertexData(data);
+}
+
 void PhongVAO::updateShapeData(int param1, int param2) {
     vbo.updateShapeData(param1, param2);
 }

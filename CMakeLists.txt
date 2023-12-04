@@ -63,9 +63,6 @@ add_executable(${PROJECT_NAME}
     src/shaders/vbo.h src/shaders/vbo.cpp
     src/shaders/texture/texturevbo.h src/shaders/texture/texturevbo.cpp
     src/shaders/texture/texturevao.h src/shaders/texture/texturevao.cpp
-    src/shaders/terrain/terrainshader.h src/shaders/terrain/terrainshader.cpp
-    src/shaders/terrain/terrainvao.h src/shaders/terrain/terrainvao.cpp
-    src/shaders/terrain/terrainvbo.h src/shaders/terrain/terrainvbo.cpp
 
 
 )
@@ -96,8 +93,6 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/shaders/phong.vert
         resources/shaders/texture.frag
         resources/shaders/texture.vert
-        resources/shaders/terrain.frag
-        resources/shaders/terrain.vert
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

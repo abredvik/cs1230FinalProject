@@ -11,7 +11,7 @@ Cone unitCone = Cone();
 Cylinder unitCylinder = Cylinder();
 Sphere unitSphere = Sphere();
 
-PhongShader::PhongShader() : vao_cube(&unitCube), vao_cone(&unitCone), vao_cylinder(&unitCylinder), vao_sphere(&unitSphere)
+PhongShader::PhongShader() : vao_cube(&unitCube), vao_cone(&unitCone), vao_cylinder(&unitCylinder), vao_sphere(&unitSphere), vao_terrain(nullptr)
 {
 
 }
@@ -40,13 +40,49 @@ void PhongShader::createShader(int width, int height, GLuint fbo) {
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    id = ShaderLoader::createShaderProgram(":/resources/shaders/default.vert", ":/resources/shaders/default.frag");
+    id = ShaderLoader::createShaderProgram(":/resources/shaders/phong.vert", ":/resources/shaders/phong.frag");
 
     // create VAOs
     vao_cube.createVAO();
     vao_cone.createVAO();
     vao_cylinder.createVAO();
     vao_sphere.createVAO();
+    vao_terrain.createVAO();
+    vao_terrain.updateVertexData(generator.generateTerrain());
+}
+
+void PhongShader::drawTerrain() {
+    // define RenderShapeData for the terrain
+    RenderShapeData obj = RenderShapeData {
+        .primitive = ScenePrimitive {
+            .type = PrimitiveType::PRIMITIVE_MESH,
+            .material = SceneMaterial {
+                .cAmbient = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
+                .cDiffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
+                .cSpecular = glm::vec4(1.f),
+                .shininess = 10,
+                .cReflective = glm::vec4(0.f), // not used
+                .cTransparent = glm::vec4(0.f), // not used
+                .ior = 0, // not used
+                .textureMap = SceneFileMap{}, // not used
+                .blend = 0.f, // not used
+                .cEmissive = glm::vec4(0.f), // not used
+                .bumpMap = SceneFileMap {} // not used
+            },
+            .meshfile = std::string()
+        },
+        .ctm = glm::mat4(1.f),
+        .inv_ctm = glm::mat4(1.f),
+        .normalTransform = glm::mat3(1.f)
+    };
+
+    // send uniforms to vertex shader
+    sendUniformVert(id, currentScene, obj);
+
+    // send uniforms to fragment shader
+    sendUniformFrag(id, currentScene, obj);
+
+    vao_terrain.draw();
 }
 
 void PhongShader::draw() {
@@ -61,6 +97,9 @@ void PhongShader::draw() {
 
     // bind the shader program
     glUseProgram(id);
+
+    // draw terrain
+    drawTerrain();
 
     for (const RenderShapeData& obj : currentScene->getShapes()) {
 
@@ -102,4 +141,5 @@ void PhongShader::deleteShader() {
     vao_cone.deleteVAO();
     vao_cylinder.deleteVAO();
     vao_sphere.deleteVAO();
+    vao_terrain.deleteVAO();
 }

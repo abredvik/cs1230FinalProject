@@ -12,6 +12,8 @@ public:
 
     const int getNumVertices() const;
 
+    void updateVertexData(const std::vector<float>& data);
+
     void updateShapeData(int param1, int param2);
 
     void createVBO();

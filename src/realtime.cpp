@@ -33,9 +33,8 @@ void Realtime::finish() {
     this->makeCurrent();
 
     // Students: anything requiring OpenGL calls when the program exits should be done here
-    terrainShader.deleteShader();
     textureShader.deleteShader();
-//    phongShader.deleteShader();
+    phongShader.deleteShader();
     fbo.deleteFBO();
 
     this->doneCurrent();
@@ -73,14 +72,13 @@ void Realtime::initializeGL() {
     fbo.makeFBO(defaultFBO, m_screen_width, m_screen_height);
 
     // create shader program
-//    phongShader.createShader(m_screen_width, m_screen_height, fbo.getID());
-    terrainShader.createShader(m_screen_width, m_screen_height, fbo.getID());
+    phongShader.createShader(m_screen_width, m_screen_height, fbo.getID());
     textureShader.createShader(m_screen_width, m_screen_height, fbo.getID());
 
     textureShader.updateTexture(fbo.getTexID());
 
-//    phongShader.updateScene(&currentScene);
-    terrainShader.updateScene(&currentScene);
+    phongShader.updateScene(&currentScene);
+    currentScene = Scene();
 
 }
 
@@ -88,8 +86,7 @@ void Realtime::paintGL() {
     // Students: anything requiring OpenGL calls every frame should be done here
 
     // draw the current scene
-//    phongShader.draw();
-    terrainShader.draw();
+    phongShader.draw();
     textureShader.draw();
 }
 
@@ -105,9 +102,8 @@ void Realtime::resizeGL(int w, int h) {
     fbo.deleteFBO();
     fbo.makeFBO(defaultFBO, m_screen_width, m_screen_height);
 
-//    phongShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
+    phongShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
     textureShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
-    terrainShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
 
     width = w;
     height = h;
@@ -119,7 +115,7 @@ void Realtime::sceneChanged() {
     SceneParser::parse(settings.sceneFilePath, metaData);
     currentScene = Scene(width, height, metaData);
     currentScene.updateCamProjMatrix(width, height, settings.nearPlane, settings.farPlane);
-//    phongShader.updateShapeData(settings.shapeParameter1, settings.shapeParameter2);
+    phongShader.updateShapeData(settings.shapeParameter1, settings.shapeParameter2);
 
     update(); // asks for a PaintGL() call to occur
 }
@@ -134,7 +130,7 @@ void Realtime::settingsChanged() {
         prev_param1 = settings.shapeParameter1;
         prev_param2 = settings.shapeParameter2;
         // update shape data
-//        phongShader.updateShapeData(settings.shapeParameter1, settings.shapeParameter2);
+        phongShader.updateShapeData(settings.shapeParameter1, settings.shapeParameter2);
     }
 
     update(); // asks for a PaintGL() call to occur

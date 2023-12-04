@@ -3,6 +3,7 @@
 #include "../shader.h"
 #include "scene.h"
 #include "phongvao.h"
+#include "utils/terraingenerator.h"
 #include <GL/glew.h>
 
 class PhongShader : public Shader
@@ -18,6 +19,8 @@ public:
 
     void createShader(int width, int height, GLuint fbo);
 
+    void drawTerrain();
+
     void draw();
 
     void deleteShader();
@@ -29,6 +32,9 @@ private:
     PhongVAO vao_cone;
     PhongVAO vao_cylinder;
     PhongVAO vao_sphere;
+
+    TerrainGenerator generator;
+    PhongVAO vao_terrain;
 
     GLuint id_fbo;
 

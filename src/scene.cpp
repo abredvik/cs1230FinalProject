@@ -5,6 +5,50 @@
 Scene::Scene() : camera(800, 600) {
     render_width = 800;
     render_height = 600;
+
+    // define default scene for terrain generation
+    glm::vec4 position(-2.f, 4.f, 4.f, 1.f);
+    renderData = RenderData {
+        .globalData = SceneGlobalData {
+            .ka = 0.5f, .kd = 0.5f, .ks = 0.5f, .kt = 0.f
+        },
+        .cameraData = SceneCameraData {
+            .pos = position,
+            .look = -position,
+            .up = glm::vec4(0.f, 1.f, 0.f, 0.f),
+            .heightAngle = glm::radians(30.f),
+            .aperture = 0.f,   // not used
+            .focalLength = 0.f // not used
+        },
+        .lights = {
+            SceneLightData {
+                .id = 0, // not used
+                .type = LightType::LIGHT_DIRECTIONAL,
+                .color = glm::vec4(1.f),
+                .function = glm::vec3(0.f), // not used
+                .pos = glm::vec4(0.f), // not used
+                .dir = glm::vec4(0.f, -1.f, 1.f, 0.f),
+                .penumbra = 0.f, // not used
+                .angle = 0.f, // not used
+                .width = 0.f, // not used
+                .height = 0.f // not used
+            },
+           SceneLightData {
+               .id = 0, // not used
+               .type = LightType::LIGHT_DIRECTIONAL,
+               .color = glm::vec4(1.f),
+               .function = glm::vec3(0.f), // not used
+               .pos = glm::vec4(0.f), // not used
+               .dir = glm::vec4(1.f, -1.f, 0.f, 0.f),
+               .penumbra = 0.f, // not used
+               .angle = 0.f, // not used
+               .width = 0.f, // not used
+               .height = 0.f // not used
+           }
+        },
+        .shapes = {}
+    };
+    camera = Camera(800, 600, renderData.cameraData);
 }
 
 Scene::Scene(int width, int height, RenderData &metaData) :
