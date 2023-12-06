@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <stdexcept>
 #include "scene.h"
 #include "utils/sceneparser.h"
@@ -32,21 +33,38 @@ Scene::Scene() : camera(800, 600) {
                 .angle = 0.f, // not used
                 .width = 0.f, // not used
                 .height = 0.f // not used
-            },
-           SceneLightData {
-               .id = 0, // not used
-               .type = LightType::LIGHT_DIRECTIONAL,
-               .color = glm::vec4(1.f),
-               .function = glm::vec3(0.f), // not used
-               .pos = glm::vec4(0.f), // not used
-               .dir = glm::vec4(1.f, -1.f, 0.f, 0.f),
-               .penumbra = 0.f, // not used
-               .angle = 0.f, // not used
-               .width = 0.f, // not used
-               .height = 0.f // not used
-           }
+            }
         },
-        .shapes = {}
+        .shapes = {
+            RenderShapeData {
+                .primitive = ScenePrimitive {
+                    .type = PrimitiveType::PRIMITIVE_MESH,
+                    .material = SceneMaterial {
+                        .cAmbient = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
+                        .cDiffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
+                        .cSpecular = glm::vec4(1.f),
+                        .shininess = 1,
+                        .cReflective = glm::vec4(0.f), // not used
+                        .cTransparent = glm::vec4(0.f), // not used
+                        .ior = 0, // not used
+                        .textureMaps = {
+                            SceneFileMap(true, "C:/Users/abred/Desktop/cs1230/projects/cs1230FinalProject/rockTex.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "C:/Users/abred/Desktop/cs1230/projects/cs1230FinalProject/grassTex.jpg", 1.f, 1.f),
+                        },
+                        .blend = 0.5f,
+                        .cEmissive = glm::vec4(0.f), // not used
+                        .bumpMaps = {
+                            SceneFileMap(true, "C:/Users/abred/Desktop/cs1230/projects/cs1230FinalProject/rockBump.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "C:/Users/abred/Desktop/cs1230/projects/cs1230FinalProject/grassBump.jpg", 1.f, 1.f),
+                        }
+                    },
+                    .meshfile = "terrain" // not used
+                },
+               .ctm = glm::mat4(1.f),
+               .inv_ctm = glm::mat4(1.f),
+               .normalTransform = glm::mat3(1.f)
+            }
+        }
     };
     camera = Camera(800, 600, renderData.cameraData);
 }
@@ -56,16 +74,6 @@ Scene::Scene(int width, int height, RenderData &metaData) :
     render_width = width;
     render_height = height;
     renderData = metaData;
-//    texture_maps = std::unordered_map<std::string, const Texture>();
-
-//    for (RenderShapeData& e : metaData.shapes) {
-//        SceneFileMap *fileMap = &e.primitive.material.textureMap;
-//        if (fileMap->filename == "" || texture_maps.contains(fileMap->filename)) continue;
-//        texture_maps.insert({
-//            fileMap->filename,
-//            Texture(fileMap->filename, fileMap->repeatU, fileMap->repeatV)
-//        });
-//    }
 }
 
 void Scene::translateCam(float forward, float right, float up) {
@@ -112,7 +120,3 @@ const std::vector<RenderShapeData>& Scene::getShapes() const {
 const std::vector<SceneLightData>& Scene::getLights() const {
     return renderData.lights;
 }
-
-//const Texture& Scene::getTexture(const std::string& name) const {
-//    return texture_maps.at(name);
-//}

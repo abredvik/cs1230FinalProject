@@ -12,7 +12,7 @@ public:
 
     void updateShapeData(int param1, int param2);
 
-    void draw();
+    void draw(std::vector<GLuint> texIDs);
 
     void createVAO();
 

@@ -19,7 +19,7 @@ public:
 
     void createShader(int width, int height, GLuint fbo);
 
-    void drawTerrain();
+    GLuint sendUniformTexMap(const SceneFileMap& tmap, std::string mapType, int texSlot);
 
     void draw();
 
@@ -37,6 +37,8 @@ private:
     PhongVAO vao_terrain;
 
     GLuint id_fbo;
+
+    std::unordered_map<std::string, GLuint> str2texmapID;
 
 };
 
