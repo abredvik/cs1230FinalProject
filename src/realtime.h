@@ -4,7 +4,6 @@
 #include "scene.h"
 #include "shaders/fbo.h"
 #include "shaders/phong/phongshader.h"
-#include "shaders/terrain/terrainshader.h"
 #include "shaders/texture/textureshader.h"
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -65,7 +64,6 @@ private:
     int prev_param2;
 
     FBO fbo;
-//    PhongShader phongShader;
+    PhongShader phongShader;
     TextureShader textureShader;
-    TerrainShader terrainShader;
 };

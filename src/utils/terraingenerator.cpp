@@ -69,15 +69,15 @@ std::vector<float> TerrainGenerator::generateTerrain() {
             // x2y2z3
             addPointToVector(p1, verts);
             addPointToVector(n1, verts);
-            addPointToVector(getColor(n1, p1), verts);
+//            addPointToVector(getColor(n1, p1), verts);
 
             addPointToVector(p2, verts);
             addPointToVector(n2, verts);
-            addPointToVector(getColor(n2, p2), verts);
+//            addPointToVector(getColor(n2, p2), verts);
 
             addPointToVector(p3, verts);
             addPointToVector(n3, verts);
-            addPointToVector(getColor(n3, p3), verts);
+//            addPointToVector(getColor(n3, p3), verts);
 
             // tris 2
             // x1y1z1
@@ -85,15 +85,15 @@ std::vector<float> TerrainGenerator::generateTerrain() {
             // x1y2z4
             addPointToVector(p1, verts);
             addPointToVector(n1, verts);
-            addPointToVector(getColor(n1, p1), verts);
+//            addPointToVector(getColor(n1, p1), verts);
 
             addPointToVector(p3, verts);
             addPointToVector(n3, verts);
-            addPointToVector(getColor(n3, p3), verts);
+//            addPointToVector(getColor(n3, p3), verts);
 
             addPointToVector(p4, verts);
             addPointToVector(n4, verts);
-            addPointToVector(getColor(n4, p4), verts);
+//            addPointToVector(getColor(n4, p4), verts);
         }
     }
     return verts;

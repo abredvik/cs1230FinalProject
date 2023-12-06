@@ -3,8 +3,12 @@
 
 PhongVBO::PhongVBO(Shape* unitShape)
 {
-    shape = unitShape;
-    vertexData = unitShape->generateShape();
+    if (unitShape != nullptr) {
+        shape = unitShape;
+        vertexData = unitShape->generateShape();
+    } else {
+        shape = nullptr;
+    }
 }
 
 void PhongVBO::createVBO() {
@@ -27,11 +31,27 @@ void PhongVBO::createVBO() {
 }
 
 const int PhongVBO::getNumVertices() const {
-    return shape->getNumVertices();
+    return (shape != nullptr) ? shape->getNumVertices() : vertexData.size() / 6;
+}
+
+void PhongVBO::updateVertexData(const std::vector<float>& data) {
+    // copy data
+    vertexData = data;
+
+    // bind VBO
+    glBindBuffer(GL_ARRAY_BUFFER, id);
+
+    // Send data to VBO
+    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(GLfloat), vertexData.data(), GL_STATIC_DRAW);
+
+    // reset bindings
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    Debug::glErrorCheck();
 }
 
 void PhongVBO::updateShapeData(int param1, int param2) {
-    if (!id) return;
+    if (!id || shape == nullptr) return;
 
     shape->updateParams(param1, param2);
     vertexData = shape->generateShape();
