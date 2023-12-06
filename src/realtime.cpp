@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include <iostream>
 #include "settings.h"
+#include "bezier.h"
 
 // ================== Project 5: Lights, Camera
 GLuint defaultFBO = 2;
@@ -192,7 +193,36 @@ void Realtime::timerEvent(QTimerEvent *event) {
 
     currentScene.translateCam(forward, right, up);
 
-    update(); // asks for a PaintGL() call to occur
+    // use for Bezier curve path:
+    // currentScene.updateCamPos(glm::vec4 xyz);
+
+//    glm::vec4 controlPointA = glm::vec4(40, 100, 1, 1);
+//    glm::vec4 controlPointB = glm::vec4(80, 20, 1, 1);
+//    glm::vec4 controlPointC = glm::vec4(150, 180, 1, 1);
+//    glm::vec4 controlPointD = glm::vec4(260, 100, 1, 1);
+
+//    std::vector<glm::vec4> controlPoints;
+
+//    controlPoints.push_back(controlPointA);
+//    controlPoints.push_back(controlPointB);
+//    controlPoints.push_back(controlPointC);
+//    controlPoints.push_back(controlPointD);
+
+//    for (int i = 0; i < 100; i++) {
+//        float t = (float)(i)/99.0f;
+//        glm::vec4 pathPoint = Bezier::findCurvePoint(controlPoints, t);
+
+//        std::cout << "pathPoint.x: " << pathPoint.x << " pathPoint.y: " << pathPoint.y << "pathPoint.z: " << pathPoint.z << "pathPoint[3]: " << pathPoint[3] << std::endl;
+//    }
+
+    std::vector<glm::vec4> testPoints = Bezier::testPoints();
+
+    for (glm::vec4 point : testPoints) {
+        currentScene.updateCamPos(point);
+        update();
+    }
+
+    // update(); // asks for a PaintGL() call to occur
 }
 
 // DO NOT EDIT

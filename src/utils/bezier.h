@@ -8,8 +8,9 @@
 class Bezier
 {
 public:
-    Bezier();
-    void drawCurvePoint(std::vector<glm::vec4> points, float t);
+//    Bezier();
+    static glm::vec4 findCurvePoint(std::vector<glm::vec4> controlPoints, float t);
+    static void testPoints();
 };
 
 #endif // BEZIER_H
