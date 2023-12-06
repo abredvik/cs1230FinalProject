@@ -6,6 +6,7 @@
 #include <iostream>
 #include "settings.h"
 #include "bezier.h"
+#include <unistd.h>
 
 // ================== Project 5: Lights, Camera
 GLuint defaultFBO = 2;
@@ -180,34 +181,46 @@ void Realtime::timerEvent(QTimerEvent *event) {
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
 
-    // Use deltaTime and m_keyMap here to move around
-//    float unitsMoved = 5.f * deltaTime;
-//    float forward = 0.f, right = 0.f , up = 0.f;
+    // enable/disable camera motion
+    if (!settings.extraCredit1) {
+        // Use deltaTime and m_keyMap here to move around
+        float unitsMoved = 5.f * deltaTime;
+        float forward = 0.f, right = 0.f , up = 0.f;
 
-//    if (m_keyMap[Qt::Key_W])  forward += unitsMoved;
-//    if (m_keyMap[Qt::Key_S])  forward -= unitsMoved;
-//    if (m_keyMap[Qt::Key_D])    right += unitsMoved;
-//    if (m_keyMap[Qt::Key_A])    right -= unitsMoved;
-//    if (m_keyMap[Qt::Key_Space])   up += unitsMoved;
-//    if (m_keyMap[Qt::Key_Control]) up -= unitsMoved;
+        if (m_keyMap[Qt::Key_W])  forward += unitsMoved;
+        if (m_keyMap[Qt::Key_S])  forward -= unitsMoved;
+        if (m_keyMap[Qt::Key_D])    right += unitsMoved;
+        if (m_keyMap[Qt::Key_A])    right -= unitsMoved;
+        if (m_keyMap[Qt::Key_Space])   up += unitsMoved;
+        if (m_keyMap[Qt::Key_Control]) up -= unitsMoved;
 
-//    currentScene.translateCam(forward, right, up);
-
-
-    // ------------- UNCOMMENT HERE ------------ //
-    std::vector<glm::vec4> testPoints = Bezier::testPoints();
-
-    for (glm::vec4 point : testPoints) {
-
-        currentScene.updateCamPos(point);
-        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
-//        update();
+        currentScene.translateCam(forward, right, up);
+        update();
+        return;
     }
 
+    // -------- test code ----------
+    static float dist = glm::length(currentScene.getCamera().getPosition());
+    static glm::vec3 dir = -glm::normalize(glm::vec3(currentScene.getCamera().getPosition()));
+    currentScene.updateCamPos(currentScene.getCamera().getPosition() + (dist / 600.f) * glm::vec4(dir, 0.f));
+    // -----------------------------
+
+    // -------- recommended code ---------
+//    static std::vector<glm::vec4> testPoints = Bezier::testPoints();
+//    static int index = 0;
+//    currentScene.updateCamPos(testPoints[index++]);
+    // -----------------------------------
+
+    // ------------- UNCOMMENT HERE ------------ //
+//    for (glm::vec4 point : testPoints) {
+//        currentScene.updateCamPos(point);
+//        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+//        update();
+//    }
      // ------------------------------------------ //
 
-//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
-     update(); // asks for a PaintGL() call to occur
+    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+    update(); // asks for a PaintGL() call to occur
 }
 
 // DO NOT EDIT

@@ -91,6 +91,7 @@ void Camera::translate(float forward, float right, float up) {
 
 void Camera::updatePos(glm::vec4 xyz) {
     position = xyz;
+    position[3] = 1.f;
 
     glm::vec3 pos3(position);
     viewMatrix[3][0] = -glm::dot(pos3, u);

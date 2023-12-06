@@ -2,7 +2,8 @@
 #define BEZIER_H
 
 #include <iostream>
-#include "glm/glm.hpp"
+#include <vector>
+#include <glm/glm.hpp>
 
 class Bezier
 {
