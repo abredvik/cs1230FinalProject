@@ -215,14 +215,19 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //        std::cout << "pathPoint.x: " << pathPoint.x << " pathPoint.y: " << pathPoint.y << "pathPoint.z: " << pathPoint.z << "pathPoint[3]: " << pathPoint[3] << std::endl;
 //    }
 
+    // ------------- UNCOMMENT HERE ------------ //
     std::vector<glm::vec4> testPoints = Bezier::testPoints();
 
     for (glm::vec4 point : testPoints) {
         currentScene.updateCamPos(point);
+    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
         update();
     }
 
-    // update(); // asks for a PaintGL() call to occur
+     // ------------------------------------------ //
+
+//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+//     update(); // asks for a PaintGL() call to occur
 }
 
 // DO NOT EDIT

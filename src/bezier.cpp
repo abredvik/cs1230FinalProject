@@ -61,10 +61,10 @@ std::vector<glm::vec4> Bezier::testPoints() {
 //    glm::vec3 controlPointC = glm::vec4(150, 180, 1, 1);
 //    glm::vec3 controlPointD = glm::vec4(260, 100, 1, 1);
 
-    glm::vec3 controlPointA = glm::vec4(1, 1, 1, 1);
-    glm::vec3 controlPointB = glm::vec4(4, 4, 1, 1);
-    glm::vec3 controlPointC = glm::vec4(7, 7, 1, 1);
-    glm::vec3 controlPointD = glm::vec4(9, 9, 1, 1);
+    glm::vec3 controlPointA = glm::vec4(-2, 4, 4, 1);
+    glm::vec3 controlPointB = glm::vec4(0, 0, 0, 1);
+    glm::vec3 controlPointC = glm::vec4(2, -4, -2, 1);
+    glm::vec3 controlPointD = glm::vec4(3, 3, 2, 1);
 
     std::vector<glm::vec3> controlPoints;
 
