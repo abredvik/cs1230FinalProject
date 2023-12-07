@@ -15,6 +15,7 @@ void sendUniformMaterial(GLuint id_shader, const SceneMaterial& material) {
     glUniform4fv(glGetUniformLocation(id_shader, "material.cDiffuse"), 1, &material.cDiffuse[0]);
     glUniform4fv(glGetUniformLocation(id_shader, "material.cSpecular"), 1, &material.cSpecular[0]);
     glUniform1f(glGetUniformLocation(id_shader, "material.shininess"), material.shininess);
+    glUniform1f(glGetUniformLocation(id_shader, "material.blend"), material.blend);
     Debug::glErrorCheck();
 }
 

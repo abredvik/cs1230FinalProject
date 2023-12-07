@@ -835,8 +835,8 @@ bool ScenefileReader::parsePrimitive(const QJsonObject &prim, SceneNode *node) {
     SceneMaterial &mat = primitive->material;
     mat.clear();
     primitive->type = PrimitiveType::PRIMITIVE_CUBE;
-    mat.textureMap.isUsed = false;
-    mat.bumpMap.isUsed = false;
+    mat.textureMaps[0].isUsed = false;
+    mat.bumpMaps[0].isUsed = false;
     mat.cDiffuse.r = mat.cDiffuse.g = mat.cDiffuse.b = 1;
     node->primitives.push_back(primitive);
 
@@ -1007,10 +1007,10 @@ bool ScenefileReader::parsePrimitive(const QJsonObject &prim, SceneNode *node) {
         }
         std::filesystem::path fileRelativePath(prim["textureFile"].toString().toStdString());
 
-        mat.textureMap.filename = (basepath / fileRelativePath).string();
-        mat.textureMap.repeatU = prim.contains("textureU") && prim["textureU"].isDouble() ? prim["textureU"].toDouble() : 1;
-        mat.textureMap.repeatV = prim.contains("textureV") && prim["textureV"].isDouble() ? prim["textureV"].toDouble() : 1;
-        mat.textureMap.isUsed = true;
+        mat.textureMaps[0].filename = (basepath / fileRelativePath).string();
+        mat.textureMaps[0].repeatU = prim.contains("textureU") && prim["textureU"].isDouble() ? prim["textureU"].toDouble() : 1;
+        mat.textureMaps[0].repeatV = prim.contains("textureV") && prim["textureV"].isDouble() ? prim["textureV"].toDouble() : 1;
+        mat.textureMaps[0].isUsed = true;
     }
 
     if (prim.contains("bumpMapFile")) {
@@ -1020,10 +1020,10 @@ bool ScenefileReader::parsePrimitive(const QJsonObject &prim, SceneNode *node) {
         }
         std::filesystem::path fileRelativePath(prim["bumpMapFile"].toString().toStdString());
 
-        mat.bumpMap.filename = (basepath / fileRelativePath).string();
-        mat.bumpMap.repeatU = prim.contains("bumpMapU") && prim["bumpMapU"].isDouble() ? prim["bumpMapU"].toDouble() : 1;
-        mat.bumpMap.repeatV = prim.contains("bumpMapV") && prim["bumpMapV"].isDouble() ? prim["bumpMapV"].toDouble() : 1;
-        mat.bumpMap.isUsed = true;
+        mat.bumpMaps[0].filename = (basepath / fileRelativePath).string();
+        mat.bumpMaps[0].repeatU = prim.contains("bumpMapU") && prim["bumpMapU"].isDouble() ? prim["bumpMapU"].toDouble() : 1;
+        mat.bumpMaps[0].repeatV = prim.contains("bumpMapV") && prim["bumpMapV"].isDouble() ? prim["bumpMapV"].toDouble() : 1;
+        mat.bumpMaps[0].isUsed = true;
     }
 
     return true;

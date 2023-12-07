@@ -88,6 +88,12 @@ struct SceneCameraData {
 // Struct which contains data for texture mapping files
 struct SceneFileMap {
     SceneFileMap() : isUsed(false) {}
+    SceneFileMap(bool isUsed, std::string filename, float repeatU, float repeatV) {
+        this->isUsed = isUsed;
+        this->filename = filename;
+        this->repeatU = repeatU;
+        this->repeatV = repeatV;
+    }
 
     bool isUsed;
     std::string filename;
@@ -116,11 +122,11 @@ struct SceneMaterial {
     SceneColor cTransparent; // Transparency;        used for extra credit (refraction)
     float ior;               // Index of refraction; used for extra credit (refraction)
 
-    SceneFileMap textureMap; // Used for texture mapping
+    std::vector<SceneFileMap> textureMaps = { SceneFileMap() }; // Used for texture mapping
     float blend;             // Used for texture mapping
 
     SceneColor cEmissive; // Not used
-    SceneFileMap bumpMap; // Not used
+    std::vector<SceneFileMap> bumpMaps = { SceneFileMap() }; // Not used
 
     void clear()
     {
@@ -134,11 +140,11 @@ struct SceneMaterial {
         cTransparent = glm::vec4(0);
         ior = 0;
 
-        textureMap.clear();
+        for (SceneFileMap& e : textureMaps) e.clear();
         blend = 0;
 
         cEmissive = glm::vec4(0);
-        bumpMap.clear();
+        for (SceneFileMap& e : bumpMaps) e.clear();
     }
 };
 

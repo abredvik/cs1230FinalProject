@@ -5,7 +5,7 @@ void Sphere::updateParams(int param1, int param2) {
     m_param1 = std::max(2, param1);
     m_param2 = std::max(2, param2);
     setVertexData();
-    num_vertices = m_vertexData.size() / 6;
+    num_vertices = m_vertexData.size() / 9;
 }
 
 void Sphere::makeTile(glm::vec3 topLeft,
@@ -17,20 +17,28 @@ void Sphere::makeTile(glm::vec3 topLeft,
     //       but the normals are calculated in a different way!
 
     // left triangle
+    glm::vec3 tan1 = getTang(topLeft, bottomLeft, bottomRight);
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, topLeft);
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomLeft);
     insertVec3(m_vertexData, bottomLeft);
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, bottomRight);
+    insertVec3(m_vertexData, tan1);
 
     // right triangle
+    glm::vec3 tan2 = getTang(topLeft, bottomRight, topRight);
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, topLeft);
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, bottomRight);
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, topRight);
     insertVec3(m_vertexData, topRight);
+    insertVec3(m_vertexData, tan2);
 
 }
 

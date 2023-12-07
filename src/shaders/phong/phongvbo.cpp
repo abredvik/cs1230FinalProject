@@ -31,7 +31,7 @@ void PhongVBO::createVBO() {
 }
 
 const int PhongVBO::getNumVertices() const {
-    return (shape != nullptr) ? shape->getNumVertices() : vertexData.size() / 6;
+    return vertexData.size() / 9;
 }
 
 void PhongVBO::updateVertexData(const std::vector<float>& data) {

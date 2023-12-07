@@ -5,7 +5,7 @@ void Cylinder::updateParams(int param1, int param2) {
     m_param1 = param1;
     m_param2 = std::max(2, param2);
     setVertexData();
-    num_vertices = m_vertexData.size() / 6;
+    num_vertices = m_vertexData.size() / 9;
 }
 
 glm::vec3 Cylinder::getNormal(glm::vec3 v, bool isCap) {
@@ -23,20 +23,28 @@ void Cylinder::makeTile(glm::vec3 topLeft,
                         bool isCap) {
 
     // left triangle
+    glm::vec3 tan1 = getTang(topLeft, bottomLeft, bottomRight);
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, getNormal(topLeft, isCap));
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomLeft);
     insertVec3(m_vertexData, getNormal(bottomLeft, isCap));
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, getNormal(bottomRight, isCap));
+    insertVec3(m_vertexData, tan1);
 
     // right triangle
+    glm::vec3 tan2 = getTang(topLeft, bottomRight, topRight);
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, getNormal(topLeft, isCap));
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, getNormal(bottomRight, isCap));
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, topRight);
     insertVec3(m_vertexData, getNormal(topRight, isCap));
+    insertVec3(m_vertexData, tan2);
 }
 
 void Cylinder::makeCap(float theta, float thetaStep, bool isTop) {
@@ -61,13 +69,18 @@ void Cylinder::makeCap(float theta, float thetaStep, bool isTop) {
     // right edge
     glm::vec3 right = (v2 - v0) / (float)m_param1;
 
+    glm::vec3 tan = getTang(v0, v0 + left, v0 + right);
+
     // create upper triangle
     insertVec3(m_vertexData, v0);
     insertVec3(m_vertexData, normal);
+    insertVec3(m_vertexData, tan);
     insertVec3(m_vertexData, v0 + left);
     insertVec3(m_vertexData, normal);
+    insertVec3(m_vertexData, tan);
     insertVec3(m_vertexData, v0 + right);
     insertVec3(m_vertexData, normal);
+    insertVec3(m_vertexData, tan);
 
     // create lower tiles
     for (int i = 1; i < m_param1; ++i) {

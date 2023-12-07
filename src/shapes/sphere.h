@@ -2,12 +2,11 @@
 
 #include "shapes/shape.h"
 #include <vector>
-#include <glm/glm.hpp>
 
 class Sphere : public Shape
 {
 public:
-    Sphere() { setVertexData(); num_vertices = m_vertexData.size() / 6; };
+    Sphere() { setVertexData(); num_vertices = m_vertexData.size() / 9; };
     void updateParams(int param1, int param2);
     const std::vector<float>& generateShape() const { return m_vertexData; }
     const int getNumVertices() const { return num_vertices; }

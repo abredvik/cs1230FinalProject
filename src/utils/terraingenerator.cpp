@@ -40,6 +40,34 @@ void addPointToVector(glm::vec3 point, std::vector<float>& vector) {
     vector.push_back(point.z);
 }
 
+glm::vec3 swapYZ(glm::vec3 v) {
+    return glm::vec3(v[0], v[2], -v[1]);
+}
+
+glm::vec3 getTangent(glm::vec3 v0, glm::vec3 v1, glm::vec3 v2) {
+    glm::vec3 Edge1 = v1 - v0;
+    glm::vec3 Edge2 = v2 - v0;
+
+    float DeltaU1 = v1[0] - v0[0];
+    float DeltaV1 = v1[2] - v0[2];
+    float DeltaU2 = v2[0] - v0[0];
+    float DeltaV2 = v2[2] - v0[2];
+
+    float f = 1.0f / (DeltaU1 * DeltaV2 - DeltaU2 * DeltaV1);
+
+    glm::vec3 Tangent, Bitangent;
+
+    Tangent.x = f * (DeltaV2 * Edge1.x - DeltaV1 * Edge2.x);
+    Tangent.y = f * (DeltaV2 * Edge1.y - DeltaV1 * Edge2.y);
+    Tangent.z = f * (DeltaV2 * Edge1.z - DeltaV1 * Edge2.z);
+
+    Bitangent.x = f * (-DeltaU2 * Edge1.x + DeltaU1 * Edge2.x);
+    Bitangent.y = f * (-DeltaU2 * Edge1.y + DeltaU1 * Edge2.y);
+    Bitangent.z = f * (-DeltaU2 * Edge1.z + DeltaU1 * Edge2.z);
+
+    return glm::normalize(Tangent);
+}
+
 // Generates the geometry of the output triangle mesh
 std::vector<float> TerrainGenerator::generateTerrain() {
     std::vector<float> verts;
@@ -58,10 +86,19 @@ std::vector<float> TerrainGenerator::generateTerrain() {
             glm::vec3 p3 = getPosition(x2,y2);
             glm::vec3 p4 = getPosition(x1,y2);
 
+            p1 *= 50.f;
+            p2 *= 50.f;
+            p3 *= 50.f;
+            p4 *= 50.f;
+
             glm::vec3 n1 = getNormal(x1,y1);
             glm::vec3 n2 = getNormal(x2,y1);
             glm::vec3 n3 = getNormal(x2,y2);
             glm::vec3 n4 = getNormal(x1,y2);
+
+
+            glm::vec3 tan123 = getTangent(p1, p2, p3);
+            glm::vec3 tan134 = getTangent(p1, p3, p4);
 
             // tris 1
             // x1y1z1
@@ -69,14 +106,17 @@ std::vector<float> TerrainGenerator::generateTerrain() {
             // x2y2z3
             addPointToVector(p1, verts);
             addPointToVector(n1, verts);
+            addPointToVector(tan123, verts);
 //            addPointToVector(getColor(n1, p1), verts);
 
             addPointToVector(p2, verts);
             addPointToVector(n2, verts);
+            addPointToVector(tan123, verts);
 //            addPointToVector(getColor(n2, p2), verts);
 
             addPointToVector(p3, verts);
             addPointToVector(n3, verts);
+            addPointToVector(tan123, verts);
 //            addPointToVector(getColor(n3, p3), verts);
 
             // tris 2
@@ -85,14 +125,17 @@ std::vector<float> TerrainGenerator::generateTerrain() {
             // x1y2z4
             addPointToVector(p1, verts);
             addPointToVector(n1, verts);
+            addPointToVector(tan134, verts);
 //            addPointToVector(getColor(n1, p1), verts);
 
             addPointToVector(p3, verts);
             addPointToVector(n3, verts);
+            addPointToVector(tan134, verts);
 //            addPointToVector(getColor(n3, p3), verts);
 
             addPointToVector(p4, verts);
             addPointToVector(n4, verts);
+            addPointToVector(tan134, verts);
 //            addPointToVector(getColor(n4, p4), verts);
         }
     }
@@ -115,8 +158,7 @@ glm::vec3 TerrainGenerator::getPosition(int row, int col) {
     float x = 1.0 * row / m_resolution;
     float y = 1.0 * col / m_resolution;
     float z = getHeight(x, y);
-//   return glm::vec3(x,y,z);
-    return glm::vec3(x,z,y);
+    return swapYZ(glm::vec3(x,y,z));
 }
 
 // ================== Students, please focus on the code below this point
@@ -172,7 +214,7 @@ glm::vec3 TerrainGenerator::getNormal(int row, int col) {
     }
 
     // Return up as placeholder
-    return glm::normalize(normal);
+    return swapYZ(glm::normalize(normal));
 }
 
 // Computes color of vertex using normal and, optionally, position

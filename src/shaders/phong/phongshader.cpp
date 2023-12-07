@@ -1,5 +1,6 @@
 #include "phongShader.h"
 #include "../openglwrappers.h"
+#include "qimage.h"
 #include "shapes/cone.h"
 #include "shapes/cube.h"
 #include "shapes/cylinder.h"
@@ -51,38 +52,46 @@ void PhongShader::createShader(int width, int height, GLuint fbo) {
     vao_terrain.updateVertexData(generator.generateTerrain());
 }
 
-void PhongShader::drawTerrain() {
-    // define RenderShapeData for the terrain
-    RenderShapeData obj = RenderShapeData {
-        .primitive = ScenePrimitive {
-            .type = PrimitiveType::PRIMITIVE_MESH,
-            .material = SceneMaterial {
-                .cAmbient = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
-                .cDiffuse = glm::vec4(0.5f, 0.5f, 0.5f, 1.f),
-                .cSpecular = glm::vec4(1.f),
-                .shininess = 10,
-                .cReflective = glm::vec4(0.f), // not used
-                .cTransparent = glm::vec4(0.f), // not used
-                .ior = 0, // not used
-                .textureMap = SceneFileMap{}, // not used
-                .blend = 0.f, // not used
-                .cEmissive = glm::vec4(0.f), // not used
-                .bumpMap = SceneFileMap {} // not used
-            },
-            .meshfile = std::string()
-        },
-        .ctm = glm::mat4(1.f),
-        .inv_ctm = glm::mat4(1.f),
-        .normalTransform = glm::mat3(1.f)
-    };
+GLuint PhongShader::sendUniformTexMap(const SceneFileMap& tmap, std::string mapType, int texSlot) {
+    // check if texture map is used
+    if (!tmap.isUsed) {
+        return 0; // return empty texture ID
+    }
 
-    // send uniforms to vertex shader
-    sendUniformVert(id, currentScene, obj);
+    // check if we already loaded the file
+    if (!str2texmapID.contains(tmap.filename)) {
+        // load in texture map
+        QImage img = QImage(QString(tmap.filename.c_str()));
+        img = img.convertToFormat(QImage::Format_RGBA8888).mirrored();
 
-    // send uniforms to fragment shader
-    sendUniformFrag(id, currentScene, obj);
+        // initialize id
+        str2texmapID[tmap.filename] = 0;
 
-    vao_terrain.draw();
+        // Task 3: Generate kitten texture
+        glGenTextures(1, &str2texmapID[tmap.filename]);
+
+        // Task 9: Set the active texture slot to texture slot 0
+        glActiveTexture(GL_TEXTURE0 + texSlot);
+
+        // Task 4: Bind kitten texture
+        glBindTexture(GL_TEXTURE_2D, str2texmapID[tmap.filename]);
+
+        // Task 5: Load image into kitten texture
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.width(), img.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, img.bits());
+
+        // Task 6: Set min and mag filters' interpolation mode to linear
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Task 7: Unbind kitten texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    // set the uniform
+    glUniform1i(glGetUniformLocation(id, mapType.c_str()), texSlot);
+
+    // return texture ID
+    return str2texmapID[tmap.filename];
 }
 
 void PhongShader::draw() {
@@ -98,10 +107,36 @@ void PhongShader::draw() {
     // bind the shader program
     glUseProgram(id);
 
-    // draw terrain
-    drawTerrain();
-
     for (const RenderShapeData& obj : currentScene->getShapes()) {
+        // list of textures to bind
+        std::vector<GLuint> texIDs;
+        int i = 0;
+
+        // deal with texture maps
+        const std::vector<SceneFileMap>& tmaps = obj.primitive.material.textureMaps;
+        bool texMapUsed = false;
+        for (; i < tmaps.size(); ++i) {
+            // send texture map uniforms
+            GLuint texID = sendUniformTexMap(tmaps[i], "texMaps[" + std::to_string(i) + "]", i);
+            texIDs.push_back(texID);
+            if (texID) texMapUsed = true;
+        }
+
+        // whether or not texture maps are used
+        glUniform1i(glGetUniformLocation(id, "useTexMap"), texMapUsed);
+
+        // deal with bump maps
+        const std::vector<SceneFileMap>& bmaps = obj.primitive.material.bumpMaps;
+        bool bumpMapUsed = false;
+        for (int j = 0; j < bmaps.size(); ++j) {
+            // send normal map uniforms
+            GLuint texID = sendUniformTexMap(bmaps[j], "bumpMaps[" + std::to_string(j) + "]", i + j);
+            texIDs.push_back(texID);
+            if (texID) bumpMapUsed = true;
+        }
+
+        // whether or not bump maps are used
+        glUniform1i(glGetUniformLocation(id, "useBumpMap"), bumpMapUsed);
 
         // send uniforms to vertex shader
         sendUniformVert(id, currentScene, obj);
@@ -111,19 +146,20 @@ void PhongShader::draw() {
 
         switch (obj.primitive.type) {
         case PrimitiveType::PRIMITIVE_CUBE:
-            vao_cube.draw();
+            vao_cube.draw(texIDs);
             break;
         case PrimitiveType::PRIMITIVE_CONE:
-            vao_cone.draw();
+            vao_cone.draw(texIDs);
             break;
         case PrimitiveType::PRIMITIVE_CYLINDER:
-            vao_cylinder.draw();
+            vao_cylinder.draw(texIDs);
             break;
         case PrimitiveType::PRIMITIVE_SPHERE:
-            vao_sphere.draw();
+            vao_sphere.draw(texIDs);
             break;
         case PrimitiveType::PRIMITIVE_MESH:
-            continue;
+            vao_terrain.draw(texIDs);
+            break;
         }
 
         Debug::glErrorCheck();

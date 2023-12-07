@@ -4,7 +4,7 @@ void Cube::updateParams(int param1, int param2) {
     m_vertexData = std::vector<float>();
     m_param1 = param1;
     setVertexData();
-    num_vertices = m_vertexData.size() / 6;
+    num_vertices = m_vertexData.size() / 9;
 }
 
 void Cube::makeTile(glm::vec3 topLeft,
@@ -16,20 +16,30 @@ void Cube::makeTile(glm::vec3 topLeft,
     glm::vec3 rightNorm = glm::normalize(glm::cross(bottomRight - topLeft, topRight - topLeft));
 
     // left triangle
+    glm::vec3 tan1 = getTang(topLeft, bottomLeft, bottomRight);
+
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, leftNorm);
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomLeft);
     insertVec3(m_vertexData, leftNorm);
+    insertVec3(m_vertexData, tan1);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, leftNorm);
+    insertVec3(m_vertexData, tan1);
+
+    glm::vec3 tan2 = getTang(topLeft, bottomRight, topRight);
 
     // right triangle
     insertVec3(m_vertexData, topLeft);
     insertVec3(m_vertexData, rightNorm);
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, bottomRight);
     insertVec3(m_vertexData, rightNorm);
+    insertVec3(m_vertexData, tan2);
     insertVec3(m_vertexData, topRight);
     insertVec3(m_vertexData, rightNorm);
+    insertVec3(m_vertexData, tan2);
 }
 
 void Cube::makeFace(glm::vec3 topLeft,

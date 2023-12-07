@@ -4,6 +4,7 @@
 //         received post-interpolation from the vertex shader
 in vec4 worldPos;
 in vec3 worldNorm;
+in vec3 worldTangent;
 
 // Task 10: declare an out vec4 for your output color
 out vec4 fragColor;
@@ -15,6 +16,7 @@ struct Material {
     vec4 cDiffuse;  // Diffuse term
     vec4 cSpecular; // Specular term
     float shininess;      // Specular exponent
+    float blend;
 };
 
 uniform Material material;
@@ -39,9 +41,25 @@ uniform float Ka;
 uniform float Kd;
 uniform float Ks;
 
+uniform bool useTexMap;
+uniform sampler2D texMaps[8];
+
+uniform bool useBumpMap;
+uniform sampler2D bumpMaps[8];
+
 void main() {
     // Remember that you need to renormalize vectors here if you want them to be normalized
     vec3 normal = normalize(worldNorm);
+    if (useBumpMap) {
+        vec3 N = normalize(worldNorm);
+        vec3 T = normalize(worldTangent);
+        T = normalize(T - dot(T, N) * N);
+        vec3 B = cross(T, N);
+        vec3 BumpMapNormal = texture(bumpMaps[0], vec2(worldPos[0], worldPos[2]) / 8.f).xyz;
+        BumpMapNormal = 2.0 * BumpMapNormal - vec3(1.f);
+        mat3 TBN = mat3(T, B, N);
+        normal = normalize(TBN * BumpMapNormal);
+    }
 
     // Output illumination (we can ignore opacity)
     fragColor = vec4(0.0);
@@ -80,6 +98,10 @@ void main() {
         // add the diffuse term
         light_vec = normalize(light_vec);
         vec4 diff = Kd * material.cDiffuse;
+        if (useTexMap) {
+            diff *= (1.f - material.blend);
+            diff += material.blend * texture(texMaps[0], vec2(worldPos[0], worldPos[2]) / 8.f);
+        }
         diff *= max(0.f, dot(normal, light_vec));
 
         // add the specular term

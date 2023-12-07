@@ -3,20 +3,7 @@
 #include "settings.h"
 
 Camera::Camera(int width, int height) {
-//    heightAngle = glm::radians(30.f);
     aspectRatio = (float)width / (float)height;
-//    position = glm::vec4(-2.f, 4.f, 4.f, 1.f);
-//    viewMatrix = glm::mat4(1.f);
-//    projMatrix = glm::mat4(1.f);
-//    updateProjMatrix(width, height, settings.nearPlane, settings.farPlane);
-
-//    glm::vec3 look3(-position), up3(0.f, 1.f, 0.f), pos3(position);
-//    w = -glm::normalize(look3);
-//    v = glm::normalize(up3 - (glm::dot(up3, w) * w));
-//    u = glm::cross(v, w);
-
-//    updateViewMatrix();
-
 }
 
 Camera::Camera(int width, int height, const SceneCameraData& data) {
