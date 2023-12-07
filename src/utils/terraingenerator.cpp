@@ -45,8 +45,8 @@ std::vector<float> TerrainGenerator::generateTerrain() {
     std::vector<float> verts;
     verts.reserve(m_resolution * m_resolution * 6);
 
-    for(int x = 0; x < m_resolution; x++) {
-        for(int y = 0; y < m_resolution; y++) {
+    for(int x = 0; x < m_resolution * 4; x++) {
+        for(int y = 0; y < m_resolution * 4; y++) {
             int x1 = x;
             int y1 = y;
 
@@ -115,7 +115,8 @@ glm::vec3 TerrainGenerator::getPosition(int row, int col) {
     float x = 1.0 * row / m_resolution;
     float y = 1.0 * col / m_resolution;
     float z = getHeight(x, y);
-    return glm::vec3(x,y,z);
+//   return glm::vec3(x,y,z);
+    return glm::vec3(x,z,y);
 }
 
 // ================== Students, please focus on the code below this point

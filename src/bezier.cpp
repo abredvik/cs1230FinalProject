@@ -39,8 +39,10 @@
 
 void Bezier::linearInterpolation(glm::vec3& dest, const glm::vec3& a, const glm::vec3& b, const float t) {
 
-    dest.x = a.x + (b.x - a.x) * t;
-    dest.y = a.y + (b.y - a.y) * t;
+//    dest.x = a.x + (b.x - a.x) * t;
+//    dest.y = a.y + (b.y - a.y) * t;
+
+    dest = a + (b - a) * t;
 }
 
 void Bezier::findCurvePoint(glm::vec3 &dest, const glm::vec3& a, const glm::vec3& b, const glm::vec3 c, const glm::vec3& d, const float t) {
@@ -56,28 +58,16 @@ void Bezier::findCurvePoint(glm::vec3 &dest, const glm::vec3& a, const glm::vec3
 
 std::vector<glm::vec4> Bezier::testPoints() {
 
-//    glm::vec3 controlPointA = glm::vec4(40, 100, 1, 1);
-//    glm::vec3 controlPointB = glm::vec4(80, 20, 1, 1);
-//    glm::vec3 controlPointC = glm::vec4(150, 180, 1, 1);
-//    glm::vec3 controlPointD = glm::vec4(260, 100, 1, 1);
-
-    glm::vec3 controlPointA = glm::vec4(-2, 4, 4, 1);
-    glm::vec3 controlPointB = glm::vec4(0, 0, 0, 1);
-    glm::vec3 controlPointC = glm::vec4(2, -4, -2, 1);
-    glm::vec3 controlPointD = glm::vec4(3, 3, 2, 1);
-
-    std::vector<glm::vec3> controlPoints;
-
-    controlPoints.push_back(controlPointA);
-    controlPoints.push_back(controlPointB);
-    controlPoints.push_back(controlPointC);
-    controlPoints.push_back(controlPointD);
+    glm::vec3 controlPointA = glm::vec3(-1, 2, 2);
+    glm::vec3 controlPointB = glm::vec3(0, 1, 0);
+    glm::vec3 controlPointC = glm::vec3(1, 0.5, 0);
+    glm::vec3 controlPointD = glm::vec3(0, 0, 0);
 
     std::vector<glm::vec4> pathPoints;
 
-    for (int i = 0; i < 100; i++) {
-        float t = static_cast<float>(i)/99.0f;
-        // glm::vec4 pathPoint = Bezier::findCurvePoint(controlPoints, t);
+    for (int i = 5900; i < 10000; i++) {
+        // float t = static_cast<float>(i)/999.0f;
+        float t = pow(static_cast<float>(i) / 9999.0f, 2.0f);
         glm::vec3 p;
         Bezier::findCurvePoint(p, controlPointA, controlPointB, controlPointC, controlPointD, t);
         std::cout << "pathPoint.x: " << p.x << " pathPoint.y: " << p.y << " pathPoint.z: " << p.z << std::endl;

@@ -181,6 +181,8 @@ void Realtime::timerEvent(QTimerEvent *event) {
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
 
+    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+
     // enable/disable camera motion
     if (!settings.extraCredit1) {
         // Use deltaTime and m_keyMap here to move around
@@ -200,25 +202,26 @@ void Realtime::timerEvent(QTimerEvent *event) {
     }
 
     // -------- test code ----------
-    static float dist = glm::length(currentScene.getCamera().getPosition());
-    static glm::vec3 dir = -glm::normalize(glm::vec3(currentScene.getCamera().getPosition()));
-    currentScene.updateCamPos(currentScene.getCamera().getPosition() + (dist / 600.f) * glm::vec4(dir, 0.f));
+//    static float dist = glm::length(currentScene.getCamera().getPosition());
+//    static glm::vec3 dir = -glm::normalize(glm::vec3(currentScene.getCamera().getPosition()));
+//    currentScene.updateCamPos(currentScene.getCamera().getPosition() + (dist / 600.f) * glm::vec4(dir, 0.f));
     // -----------------------------
 
     // -------- recommended code ---------
-//    static std::vector<glm::vec4> testPoints = Bezier::testPoints();
-//    static int index = 0;
-//    currentScene.updateCamPos(testPoints[index++]);
+    static std::vector<glm::vec4> testPoints = Bezier::testPoints();
+    static int index = 0;
+    currentScene.updateCamPos(testPoints[index++]);
+    currentScene.rotateCam(2, 0);
     // -----------------------------------
 
-    // ------------- UNCOMMENT HERE ------------ //
+    // ------------- UNCOMMENT HERE ------------
 //    for (glm::vec4 point : testPoints) {
 //        currentScene.updateCamPos(point);
 //        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
 //        update();
 //    }
-     // ------------------------------------------ //
-
+     // ------------------------------------------
+    std::cout << index << std::endl;
     std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }
