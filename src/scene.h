@@ -18,6 +18,9 @@ public:
     Scene();
     Scene(int width, int height, RenderData &metaData);
 
+    // The getting of the Up vector
+    const glm::vec3 getUpVector() const;
+
     // The getter of the width of the scene
     const int& width() const;
 

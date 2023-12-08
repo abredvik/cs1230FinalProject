@@ -58,21 +58,24 @@ void Bezier::findCurvePoint(glm::vec3 &dest, const glm::vec3& a, const glm::vec3
 
 std::vector<glm::vec4> Bezier::testPoints() {
 
-    glm::vec3 controlPointA = glm::vec3(-1, 2, 2);
+    glm::vec3 controlPointA = glm::vec3(-40, 20, 20);
     glm::vec3 controlPointB = glm::vec3(0, 1, 0);
     glm::vec3 controlPointC = glm::vec3(1, 0.5, 0);
-    glm::vec3 controlPointD = glm::vec3(50, 50, 0);
+    glm::vec3 controlPointD = glm::vec3(50, 50, 50);
 
     std::vector<glm::vec4> pathPoints;
 
-    for (int i = 5900; i < 10000; i++) {
+    for (int i = 3000; i < 5000; i++) {
         // float t = static_cast<float>(i)/999.0f;
-        float t = pow(static_cast<float>(i) / 9999.0f, 2.0f);
+        float t = pow(static_cast<float>(i) / 4999.0f, 2.0f);
         glm::vec3 p;
         Bezier::findCurvePoint(p, controlPointA, controlPointB, controlPointC, controlPointD, t);
         std::cout << "pathPoint.x: " << p.x << " pathPoint.y: " << p.y << " pathPoint.z: " << p.z << std::endl;
 
         pathPoints.push_back(glm::vec4(p, 1));
+
+        // if you know the tangent vector for the previous point and you calculate the tangent for the current point;
+        // the more the dot product between those two the more you can rotate the camera
 
         // fixed downward path for the look vector
         // another thing is try to make the look vector tangential to the curve
