@@ -17,9 +17,16 @@ Camera::Camera(int width, int height, const SceneCameraData& data) {
     projMatrix = glm::mat4(1.f);
     updateProjMatrix(width, height, settings.nearPlane, settings.farPlane);
 
-    glm::vec3 look3(data.look), up3(data.up), pos3(data.pos);
-    w = -glm::normalize(look3);
-    v = glm::normalize(up3 - (glm::dot(up3, w) * w));
+    glm::vec3 look3(data.look), up3(data.up);
+    updateLookUp(look3, up3);
+}
+
+void Camera::updateLookUp(glm::vec3 newLook, glm::vec3 newUp) {
+    look = newLook;
+    up = newUp;
+
+    w = -glm::normalize(look);
+    v = glm::normalize(up - (glm::dot(up, w) * w));
     u = glm::cross(v, w);
 
     updateViewMatrix();

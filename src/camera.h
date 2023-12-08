@@ -32,6 +32,8 @@ public:
 
     void updateProjMatrix(int width, int height, float near, float far);
 
+    void updateLookUp(glm::vec3 newLook, glm::vec3 newUp);
+
     const float getNear() const;
     const float getFar() const;
 
@@ -51,6 +53,7 @@ public:
     // You can ignore if you are not attempting to implement depth of field.
     const float getAperture() const;
 private:
+    glm::vec3 look, up;
     glm::vec3 u, v, w;
     glm::vec4 position;
     glm::mat4 viewMatrix;
