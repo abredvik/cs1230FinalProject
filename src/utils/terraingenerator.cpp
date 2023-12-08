@@ -153,7 +153,7 @@ glm::vec2 TerrainGenerator::sampleRandomVector(int row, int col)
 // Takes a grid coordinate (row, col), [0, m_resolution), which describes a vertex in a plane mesh
 // Returns a normalized position (x, y, z); x and y in range from [0, 1), and z is obtained from getHeight()
 glm::vec3 TerrainGenerator::getPosition(int row, int col) {
-    // Normalizing the planar coordinates to a unit square 
+    // Normalizing the planar coordinates to a unit square
     // makes scaling independent of sampling resolution.
     float x = 1.0 * row / m_resolution;
     float y = 1.0 * col / m_resolution;
