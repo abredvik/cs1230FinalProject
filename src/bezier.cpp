@@ -61,7 +61,7 @@ std::vector<glm::vec4> Bezier::testPoints() {
     glm::vec3 controlPointA = glm::vec3(-1, 2, 2);
     glm::vec3 controlPointB = glm::vec3(0, 1, 0);
     glm::vec3 controlPointC = glm::vec3(1, 0.5, 0);
-    glm::vec3 controlPointD = glm::vec3(0, 0, 0);
+    glm::vec3 controlPointD = glm::vec3(50, 50, 0);
 
     std::vector<glm::vec4> pathPoints;
 
@@ -73,6 +73,9 @@ std::vector<glm::vec4> Bezier::testPoints() {
         std::cout << "pathPoint.x: " << p.x << " pathPoint.y: " << p.y << " pathPoint.z: " << p.z << std::endl;
 
         pathPoints.push_back(glm::vec4(p, 1));
+
+        // fixed downward path for the look vector
+        // another thing is try to make the look vector tangential to the curve
     }
 
     return pathPoints;

@@ -211,7 +211,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
     static std::vector<glm::vec4> testPoints = Bezier::testPoints();
     static int index = 0;
     currentScene.updateCamPos(testPoints[index++]);
-    currentScene.rotateCam(2, 0);
+    // currentScene.rotateCam(2, 0);
     // -----------------------------------
 
     // ------------- UNCOMMENT HERE ------------
