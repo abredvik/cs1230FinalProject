@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "bezier.h"
 #include <unistd.h>
+#include "glm/glm.hpp"
 
 // ================== Project 5: Lights, Camera
 GLuint defaultFBO = 2;
@@ -211,6 +212,8 @@ void Realtime::timerEvent(QTimerEvent *event) {
     static std::vector<glm::vec4> testPoints = Bezier::testPoints();
     static int index = 0;
     currentScene.updateCamPos(testPoints[index++]);
+    Camera::updateLookUp(glm::normalize(glm::vec3(1, -1, 1)), glm::normalize(glm::vec3(0, 1, 0)));
+    //45 degrees downward in the positive X Z direction
     // currentScene.rotateCam(2, 0);
     // -----------------------------------
 

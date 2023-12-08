@@ -8,7 +8,7 @@ Scene::Scene() : camera(800, 600) {
     render_height = 600;
 
     // define default scene for terrain generation
-    glm::vec4 position(-2.f, 4.f, 4.f, 1.f);
+    glm::vec4 position(-5.f, 6.f, 6.f, 1.f);
     renderData = RenderData {
         .globalData = SceneGlobalData {
             .ka = 0.5f, .kd = 0.5f, .ks = 0.5f, .kt = 0.f
