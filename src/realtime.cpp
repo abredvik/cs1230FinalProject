@@ -210,17 +210,19 @@ void Realtime::timerEvent(QTimerEvent *event) {
 
     // -------- recommended code ---------
     static std::vector<glm::vec4> testPoints = Bezier::testPoints();
-    static int index = 0;
+    static int index = 1;
     currentScene.updateCamPos(testPoints[index++]);
 
-    if (index > 0) {
-        glm::vec3 newUp = glm::normalize(glm::dot(tan(testPoints[index-1]), tan(testPoints[index])) * currentScene.getUpVector());
-        currentScene.updateCamLookUp(glm::normalize(glm::vec3(1, -1, -1)), newUp);
-    }
+//    currentScene.updateCamLookUp(glm::normalize(glm::vec3(1, -1, -1)), glm::normalize(glm::vec3(0, 1, 0)));
 
-    else {
-        currentScene.updateCamLookUp(glm::normalize(glm::vec3(1, -1, -1)), currentScene.getUpVector());
-    }
+    glm::vec3 tangentVector = glm::normalize(testPoints[index] - testPoints[index - 1]);
+
+//    float angle = acos(glm::dot((glm::normalize(testPoints[index-1])), (glm::normalize(testPoints[index]))));
+//    currentScene.rotateCamAxis(glm::degrees(angle), tan(glm::normalize(testPoints[index])));
+
+//    std::cout << "Angle: " << glm::degrees(angle) << std::endl;
+    currentScene.updateCamLookUp(tangentVector, glm::vec3(0, 1, 0));
+
 
     //45 degrees downward in the positive X Z direction
     // currentScene.rotateCam(2, 0);
@@ -233,8 +235,8 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //        update();
 //    }
      // ------------------------------------------
-    std::cout << index << std::endl;
-    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+//    std::cout << index << std::endl;
+    // std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }
 

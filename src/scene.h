@@ -18,6 +18,9 @@ public:
     Scene();
     Scene(int width, int height, RenderData &metaData);
 
+    // Rotate the Camera axis
+    void rotateCamAxis(float angleDeg, glm::vec3 axis);
+
     // The getting of the Up vector
     const glm::vec3 getUpVector() const;
 

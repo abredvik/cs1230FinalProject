@@ -96,6 +96,10 @@ void Scene::updateCamProjMatrix(int width, int height, float near, float far) {
     camera.updateProjMatrix(width, height, near, far);
 }
 
+void Scene::rotateCamAxis(float angleDeg, glm::vec3 axis) {
+    camera.rotateAxes(angleDeg, axis);
+}
+
 const glm::vec3 Scene::getUpVector() const {
     return renderData.cameraData.up;
 }

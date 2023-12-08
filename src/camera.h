@@ -34,6 +34,8 @@ public:
 
     void updateLookUp(glm::vec3 newLook, glm::vec3 newUp);
 
+    void rotateAxes(float angleDeg, glm::vec3 axis);
+
     const float getNear() const;
     const float getFar() const;
 
@@ -66,6 +68,6 @@ private:
     float nearPlane;
     float farPlane;
 
-    void rotateAxes(float angleDeg, glm::vec3 axis);
+
     void updateViewMatrix();
 };
