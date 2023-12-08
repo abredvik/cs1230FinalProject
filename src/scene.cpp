@@ -80,6 +80,10 @@ void Scene::translateCam(float forward, float right, float up) {
     camera.translate(forward, right, up);
 }
 
+void Scene::updateCamLookUp(glm::vec3 newLook, glm::vec3 newUp) {
+    camera.updateLookUp(newLook, newUp);
+}
+
 void Scene::updateCamPos(glm::vec4 xyz) {
     camera.updatePos(xyz);
 }

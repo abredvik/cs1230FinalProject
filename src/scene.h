@@ -38,6 +38,8 @@ public:
 
     void updateCamProjMatrix(int width, int height, float near, float far);
 
+    void updateCamLookUp(glm::vec3 newLook, glm::vec3 newUp);
+
     const std::vector<RenderShapeData>& getShapes() const;
 
     const std::vector<SceneLightData>& getLights() const;
