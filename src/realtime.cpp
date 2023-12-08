@@ -182,7 +182,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
 
-    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
 
     // enable/disable camera motion
     if (!settings.extraCredit1) {
@@ -223,6 +223,8 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //    std::cout << "Angle: " << glm::degrees(angle) << std::endl;
     currentScene.updateCamLookUp(tangentVector, glm::vec3(0, 1, 0));
 
+//    std::cout << "Tangent Vector.x: " << tangentVector.x << " Tangent Vector.y: " << tangentVector.y << " Tangent Vector.z: " << tangentVector.z << std::endl;
+
 
     //45 degrees downward in the positive X Z direction
     // currentScene.rotateCam(2, 0);
@@ -235,8 +237,8 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //        update();
 //    }
      // ------------------------------------------
-//    std::cout << index << std::endl;
-    // std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+    std::cout << index << std::endl;
+    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }
 
