@@ -70,7 +70,7 @@ void Realtime::initializeGL() {
     // Students: anything requiring OpenGL calls when the program starts should be done here
 
     // set background color
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.53, 0.81, 0.92, 1);
 
     fbo.makeFBO(defaultFBO, m_screen_width, m_screen_height);
 
