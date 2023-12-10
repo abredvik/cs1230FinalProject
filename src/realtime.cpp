@@ -198,6 +198,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
         if (m_keyMap[Qt::Key_Control]) up -= unitsMoved;
 
         currentScene.translateCam(forward, right, up);
+        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
         update();
         return;
     }
@@ -238,7 +239,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //    }
      // ------------------------------------------
     std::cout << index << std::endl;
-    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
+//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }
 
