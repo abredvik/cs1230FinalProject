@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "shaders/fbo.h"
 #include "shaders/phong/phongshader.h"
+#include "shaders/skybox/skyboxshader.h"
 #include "shaders/texture/textureshader.h"
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -66,4 +67,5 @@ private:
     FBO fbo;
     PhongShader phongShader;
     TextureShader textureShader;
+    SkyboxShader skyboxShader;
 };

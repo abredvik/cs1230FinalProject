@@ -33,6 +33,7 @@ void Realtime::finish() {
     this->makeCurrent();
 
     // Students: anything requiring OpenGL calls when the program exits should be done here
+    skyboxShader.deleteShader();
     textureShader.deleteShader();
     phongShader.deleteShader();
     fbo.deleteFBO();
@@ -61,23 +62,26 @@ void Realtime::initializeGL() {
     glEnable(GL_DEPTH_TEST);
     // Tells OpenGL to only draw the front face
     glEnable(GL_CULL_FACE);
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     // Tells OpenGL how big the screen is
     glViewport(0, 0, m_screen_width, m_screen_height);
 
     // Students: anything requiring OpenGL calls when the program starts should be done here
 
     // set background color
-    glClearColor(0.53, 0.81, 0.92, 1);
+    glClearColor(0,0,0,1);
 
     fbo.makeFBO(defaultFBO, m_screen_width, m_screen_height);
 
     // create shader program
+    skyboxShader.createShader(m_screen_width, m_screen_height, fbo.getID());
     phongShader.createShader(m_screen_width, m_screen_height, fbo.getID());
     textureShader.createShader(m_screen_width, m_screen_height, fbo.getID());
 
     textureShader.updateTexture(fbo.getTexID());
 
     phongShader.updateScene(&currentScene);
+    skyboxShader.updateScene(&currentScene);
     currentScene = Scene();
 
 }
@@ -86,6 +90,7 @@ void Realtime::paintGL() {
     // Students: anything requiring OpenGL calls every frame should be done here
 
     // draw the current scene
+    skyboxShader.draw();
     phongShader.draw();
     textureShader.draw();
 }
@@ -102,6 +107,7 @@ void Realtime::resizeGL(int w, int h) {
     fbo.deleteFBO();
     fbo.makeFBO(defaultFBO, m_screen_width, m_screen_height);
 
+    skyboxShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
     phongShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
     textureShader.updateViewport(m_screen_width, m_screen_height, fbo.getID(), defaultFBO);
 
