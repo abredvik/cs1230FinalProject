@@ -41,6 +41,8 @@ uniform float Ka;
 uniform float Kd;
 uniform float Ks;
 
+uniform bool isHighRes;
+
 uniform bool useTexMap;
 uniform sampler2D texMaps[8];
 
@@ -48,18 +50,31 @@ uniform bool useBumpMap;
 uniform sampler2D bumpMaps[8];
 
 vec4 getTexColor() {
-    vec4 tex0 = texture(texMaps[0], vec2(worldPos[0], worldPos[2]) / 1.f);
-    vec4 tex1 = texture(texMaps[1], vec2(worldPos[0], worldPos[2]) / 8.f);
+    vec4 tex0, tex1;
+    if (!isHighRes) {
+        tex0 = texture(texMaps[0], vec2(worldPos[0], worldPos[2]) / 1.f);
+        tex1 = texture(texMaps[1], vec2(worldPos[0], worldPos[2]) / 8.f);
+    } else {
+        tex0 = texture(texMaps[2], vec2(worldPos[0], worldPos[2]) / 2.f);
+        tex1 = texture(texMaps[3], vec2(worldPos[0], worldPos[2]) / 1.f);
+    }
 
-    if (worldPos[1] < 4.f) return tex1;
+    if (worldPos[1] < 3.f) return tex1;
     if (worldPos[1] > 6.f) return tex0;
-    float a = (worldPos[1] - 4.f) / 2.f;
+    float a = (worldPos[1] - 3.f) / 3.f;
     return a * tex0 + (1.f - a) * tex1;
 }
 
 vec4 getBumpColor() {
-    vec4 tex0 = texture(bumpMaps[0], vec2(worldPos[0], worldPos[2]) / 8.f);
-    vec4 tex1 = texture(bumpMaps[1], vec2(worldPos[0], worldPos[2]) / 8.f);
+    vec4 tex0, tex1;
+    if (!isHighRes) {
+        tex0 = texture(bumpMaps[0], vec2(worldPos[0], worldPos[2]) / 8.f);
+        tex1 = texture(bumpMaps[1], vec2(worldPos[0], worldPos[2]) / 8.f);
+    } else {
+        tex0 = texture(bumpMaps[2], vec2(worldPos[0], worldPos[2]) / 2.f);
+        tex1 = texture(bumpMaps[3], vec2(worldPos[0], worldPos[2]) / 1.f);
+    }
+
 
     if (worldPos[1] < 4.f) return tex1;
     if (worldPos[1] > 6.f) return tex0;
@@ -76,7 +91,7 @@ void main() {
         vec3 T = normalize(worldTangent);
         T = normalize(T - dot(T, N) * N);
         vec3 B = cross(T, N);
-        vec3 BumpMapNormal = getBumpColor().xyz;//texture(bumpMaps[texInd], vec2(worldPos[0], worldPos[2]) / 8.f).xyz;
+        vec3 BumpMapNormal = getBumpColor().xyz;
         BumpMapNormal = 2.0 * BumpMapNormal - vec3(1.f);
         mat3 TBN = mat3(T, B, N);
         normal = normalize(TBN * BumpMapNormal);

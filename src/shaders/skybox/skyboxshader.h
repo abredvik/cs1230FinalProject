@@ -30,5 +30,5 @@ private:
 
     GLuint id_fbo;
 
-    std::string skyboxPath = "./skybox.png";
+    std::string skyboxPath = "textures/skybox.png";
 };

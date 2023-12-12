@@ -1,6 +1,7 @@
 #include "phongShader.h"
 #include "../openglwrappers.h"
 #include "qimage.h"
+#include "settings.h"
 #include "shapes/cone.h"
 #include "shapes/cube.h"
 #include "shapes/cylinder.h"
@@ -136,7 +137,10 @@ void PhongShader::draw() {
         }
 
         // whether or not bump maps are used
-        glUniform1i(glGetUniformLocation(id, "useBumpMap"), bumpMapUsed);
+        glUniform1i(glGetUniformLocation(id, "useBumpMap"), bumpMapUsed && settings.useNormalMap);
+
+        // wheter or not to use the high resolution textures
+        glUniform1i(glGetUniformLocation(id, "isHighRes"), settings.useHighRes);
 
         // send uniforms to vertex shader
         sendUniformVert(id, currentScene, obj);

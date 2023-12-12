@@ -48,14 +48,18 @@ Scene::Scene() : camera(800, 600) {
                         .cTransparent = glm::vec4(0.f), // not used
                         .ior = 0, // not used
                         .textureMaps = {
-                            SceneFileMap(true, "./tr1rock1.jpg", 1.f, 1.f),
-                            SceneFileMap(true, "./grassyDirt.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/lowResRock.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/lowResGrass.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/highResRock.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/highResGrass.jpg", 1.f, 1.f),
                         },
                         .blend = 1.f,
                         .cEmissive = glm::vec4(0.f), // not used
                         .bumpMaps = {
-                            SceneFileMap(true, "./rockBump.jpg", 1.f, 1.f),
-                            SceneFileMap(true, "./grassBump.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/lowResRockNormal.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/lowResGrassNormal.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/highResRockNormal.jpg", 1.f, 1.f),
+                            SceneFileMap(true, "textures/highResGrassNormal2.jpg", 1.f, 1.f),
                         }
                     },
                     .meshfile = "terrain" // not used
