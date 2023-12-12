@@ -58,11 +58,14 @@ add_executable(${PROJECT_NAME}
     src/shaders/phong/phongshader.h src/shaders/phong/phongshader.cpp
     src/shaders/fbo.h src/shaders/fbo.cpp
     src/shaders/shader.h src/shaders/shader.cpp
-    src/shaders/texture/textureshader.h src/shaders/texture/textureshader.cpp
     src/shaders/vao.h src/shaders/vao.cpp
     src/shaders/vbo.h src/shaders/vbo.cpp
+    src/shaders/texture/textureshader.h src/shaders/texture/textureshader.cpp
     src/shaders/texture/texturevbo.h src/shaders/texture/texturevbo.cpp
     src/shaders/texture/texturevao.h src/shaders/texture/texturevao.cpp
+    src/shaders/skybox/skyboxshader.h src/shaders/skybox/skyboxshader.cpp
+    src/shaders/skybox/skyboxvbo.h src/shaders/skybox/skyboxvbo.cpp
+    src/shaders/skybox/skyboxvao.h src/shaders/skybox/skyboxvao.cpp
 
 
 )
@@ -94,6 +97,8 @@ qt6_add_resources(${PROJECT_NAME} "Resources"
         resources/shaders/phong.vert
         resources/shaders/texture.frag
         resources/shaders/texture.vert
+        resources/shaders/skybox.frag
+        resources/shaders/skybox.vert
 )
 
 # GLEW: this provides support for Windows (including 64-bit)

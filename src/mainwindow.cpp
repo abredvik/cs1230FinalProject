@@ -34,7 +34,7 @@ void MainWindow::initialize() {
     filters_label->setText("Filters");
     filters_label->setFont(font);
     QLabel *ec_label = new QLabel(); // Extra Credit label
-    ec_label->setText("Extra Credit");
+    ec_label->setText("Additional Features");
     ec_label->setFont(font);
     QLabel *param1_label = new QLabel(); // Parameter 1 label
     param1_label->setText("Parameter 1:");
@@ -146,19 +146,19 @@ void MainWindow::initialize() {
 
     // Extra Credit:
     ec1 = new QCheckBox();
-    ec1->setText(QStringLiteral("Extra Credit 1"));
+    ec1->setText(QStringLiteral("Enable Bezier Curves"));
     ec1->setChecked(false);
 
     ec2 = new QCheckBox();
-    ec2->setText(QStringLiteral("Extra Credit 2"));
+    ec2->setText(QStringLiteral("Enable Normal Maps"));
     ec2->setChecked(false);
 
     ec3 = new QCheckBox();
-    ec3->setText(QStringLiteral("Extra Credit 3"));
+    ec3->setText(QStringLiteral("Enable High-Res Textures"));
     ec3->setChecked(false);
 
     ec4 = new QCheckBox();
-    ec4->setText(QStringLiteral("Extra Credit 4"));
+    ec4->setText(QStringLiteral("Enable Toon Shading"));
     ec4->setChecked(false);
 
     vLayout->addWidget(uploadFile);
@@ -356,21 +356,21 @@ void MainWindow::onValChangeFarBox(double newValue) {
 // Extra Credit:
 
 void MainWindow::onExtraCredit1() {
-    settings.extraCredit1 = !settings.extraCredit1;
+    settings.useBezierCurve = !settings.useBezierCurve;
     realtime->settingsChanged();
 }
 
 void MainWindow::onExtraCredit2() {
-    settings.extraCredit2 = !settings.extraCredit2;
+    settings.useNormalMap = !settings.useNormalMap;
     realtime->settingsChanged();
 }
 
 void MainWindow::onExtraCredit3() {
-    settings.extraCredit3 = !settings.extraCredit3;
+    settings.useHighRes = !settings.useHighRes;
     realtime->settingsChanged();
 }
 
 void MainWindow::onExtraCredit4() {
-    settings.extraCredit4 = !settings.extraCredit4;
+    settings.useToonShading = !settings.useToonShading;
     realtime->settingsChanged();
 }
