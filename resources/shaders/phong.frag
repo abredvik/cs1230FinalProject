@@ -49,7 +49,7 @@ uniform sampler2D texMaps[8];
 uniform bool useBumpMap;
 uniform sampler2D bumpMaps[8];
 
-vec4 getTexColor() {
+vec4 getTexColor(float grass_cutoff, float rock_cutoff) {
     vec4 tex0, tex1;
     if (!isHighRes) {
         tex0 = texture(texMaps[0], vec2(worldPos[0], worldPos[2]) / 1.f);
@@ -59,13 +59,13 @@ vec4 getTexColor() {
         tex1 = texture(texMaps[3], vec2(worldPos[0], worldPos[2]) / 1.f);
     }
 
-    if (worldPos[1] < 3.f) return tex1;
-    if (worldPos[1] > 6.f) return tex0;
-    float a = (worldPos[1] - 3.f) / 3.f;
+    if (worldPos[1] < grass_cutoff) return tex1;
+    if (worldPos[1] > rock_cutoff) return tex0;
+    float a = (worldPos[1] - grass_cutoff) / (rock_cutoff - grass_cutoff);
     return a * tex0 + (1.f - a) * tex1;
 }
 
-vec4 getBumpColor() {
+vec4 getBumpColor(float grass_cutoff, float rock_cutoff) {
     vec4 tex0, tex1;
     if (!isHighRes) {
         tex0 = texture(bumpMaps[0], vec2(worldPos[0], worldPos[2]) / 8.f);
@@ -76,13 +76,17 @@ vec4 getBumpColor() {
     }
 
 
-    if (worldPos[1] < 4.f) return tex1;
-    if (worldPos[1] > 6.f) return tex0;
-    float a = (worldPos[1] - 4.f) / 2.f;
+    if (worldPos[1] < grass_cutoff) return tex1;
+    if (worldPos[1] > rock_cutoff) return tex0;
+    float a = (worldPos[1] - grass_cutoff) / (rock_cutoff - grass_cutoff);
     return a * tex0 + (1.f - a) * tex1;
 }
 
 void main() {
+
+    float grass_cutoff = 3.f; // everything below is grass
+                              // everything between is blended
+    float rock_cutoff =  6.f; // everything above is rock
 
     // Remember that you need to renormalize vectors here if you want them to be normalized
     vec3 normal = normalize(worldNorm);
@@ -91,7 +95,7 @@ void main() {
         vec3 T = normalize(worldTangent);
         T = normalize(T - dot(T, N) * N);
         vec3 B = cross(T, N);
-        vec3 BumpMapNormal = getBumpColor().xyz;
+        vec3 BumpMapNormal = getBumpColor(grass_cutoff, rock_cutoff).xyz;
         BumpMapNormal = 2.0 * BumpMapNormal - vec3(1.f);
         mat3 TBN = mat3(T, B, N);
         normal = normalize(TBN * BumpMapNormal);
@@ -136,7 +140,7 @@ void main() {
         vec4 diff = Kd * material.cDiffuse;
         if (useTexMap) {
             diff *= (1.f - material.blend);
-            diff += material.blend * getTexColor();//texture(texMaps[texInd], vec2(worldPos[0], worldPos[2]) / 8.f);
+            diff += material.blend * getTexColor(grass_cutoff, rock_cutoff);
         }
         diff *= max(0.f, dot(normal, light_vec));
 
