@@ -52,7 +52,7 @@ uniform sampler2D bumpMaps[8];
 uniform bool useToonShading;
 
 vec4 getColor(float grass_cutoff, float rock_cutoff) {
-    vec4 c0 = vec4(100.f, 90.f, 91.f, 255.f) / 255.f;
+    vec4 c0 = vec4(255.f, 255.f, 255.f, 255.f) / 255.f;
     vec4 c1 = vec4(124.f, 252.f, 0.f, 255.f) / 255.f;
 
     if (worldPos[1] < grass_cutoff) return c1;
@@ -96,7 +96,7 @@ vec4 getBumpColor(float grass_cutoff, float rock_cutoff) {
 
 void main() {
 
-    float numToneLevels = 5.f; // number of tone levels for toon shading
+    float numToneLevels = 3.f; // number of tone levels for toon shading
 
     float grass_cutoff = 3.f; // everything below is grass
                               // everything between is blended
