@@ -114,7 +114,7 @@ std::vector<glm::vec4> Bezier::testPoints() {
 //        Bezier::findCurvePoint(p, controlPointA, controlPointB, controlPointC, controlPointD, t);
 
 //        std::cout << "Point x:  " << point.x << std::endl;
-        std::cout << "pathPoint.x: " << point.x << " pathPoint.y: " << point.y << " pathPoint.z: " << point.z << std::endl;
+//        std::cout << "pathPoint.x: " << point.x << " pathPoint.y: " << point.y << " pathPoint.z: " << point.z << std::endl;
 
         pathPoints.push_back(glm::vec4(point));
 
@@ -125,7 +125,7 @@ std::vector<glm::vec4> Bezier::testPoints() {
         // another thing is try to make the look vector tangential to the curve
     }
 
-    std::cout << "*** JUMP ****" << std::endl;
+//    std::cout << "*** JUMP ****" << std::endl;
 
 //    glm::vec3 controlPointA1 = glm::vec3(75, 7, -126);
 //    glm::vec3 controlPointB1 = glm::vec3(80, 5, -120);

@@ -191,7 +191,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
 
     // enable/disable camera motion
-    if (!settings.extraCredit1) {
+    if (!settings.useBezierCurve) {
         // Use deltaTime and m_keyMap here to move around
         float unitsMoved = 5.f * deltaTime;
         float forward = 0.f, right = 0.f , up = 0.f;
@@ -244,7 +244,7 @@ void Realtime::timerEvent(QTimerEvent *event) {
 //        update();
 //    }
      // ------------------------------------------
-    std::cout << index << std::endl;
+//    std::cout << index << std::endl;
 //    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }

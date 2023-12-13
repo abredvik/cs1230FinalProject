@@ -84,9 +84,9 @@ vec4 getBumpColor(float grass_cutoff, float rock_cutoff) {
 
 void main() {
 
-    float grass_cutoff = 1.f; // everything below is grass
+    float grass_cutoff = 3.f; // everything below is grass
                               // everything between is blended
-    float rock_cutoff =  2.5f; // everything above is rock
+    float rock_cutoff =  6.f; // everything above is rock
 
     // Remember that you need to renormalize vectors here if you want them to be normalized
     vec3 normal = normalize(worldNorm);
