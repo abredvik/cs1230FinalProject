@@ -142,6 +142,9 @@ void PhongShader::draw() {
         // wheter or not to use the high resolution textures
         glUniform1i(glGetUniformLocation(id, "isHighRes"), settings.useHighRes);
 
+        // whether or not to use toon shading
+        glUniform1i(glGetUniformLocation(id, "useToonShading"), settings.useToonShading);
+
         // send uniforms to vertex shader
         sendUniformVert(id, currentScene, obj);
 
