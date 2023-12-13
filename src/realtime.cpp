@@ -188,8 +188,6 @@ void Realtime::timerEvent(QTimerEvent *event) {
     float deltaTime = elapsedms * 0.001f;
     m_elapsedTimer.restart();
 
-//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
-
     // enable/disable camera motion
     if (!settings.useBezierCurve) {
         // Use deltaTime and m_keyMap here to move around
@@ -204,48 +202,19 @@ void Realtime::timerEvent(QTimerEvent *event) {
         if (m_keyMap[Qt::Key_Control]) up -= unitsMoved;
 
         currentScene.translateCam(forward, right, up);
-        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
         update();
         return;
     }
 
-    // -------- test code ----------
-//    static float dist = glm::length(currentScene.getCamera().getPosition());
-//    static glm::vec3 dir = -glm::normalize(glm::vec3(currentScene.getCamera().getPosition()));
-//    currentScene.updateCamPos(currentScene.getCamera().getPosition() + (dist / 600.f) * glm::vec4(dir, 0.f));
-    // -----------------------------
-
-    // -------- recommended code ---------
     static std::vector<glm::vec4> testPoints = Bezier::testPoints();
     static int index = 1;
     currentScene.updateCamPos(testPoints[index++]);
 
-//    currentScene.updateCamLookUp(glm::normalize(glm::vec3(1, -1, -1)), glm::normalize(glm::vec3(0, 1, 0)));
-
     glm::vec3 tangentVector = glm::normalize(testPoints[index] - testPoints[index - 1]);
 
-//    float angle = acos(glm::dot((glm::normalize(testPoints[index-1])), (glm::normalize(testPoints[index]))));
-//    currentScene.rotateCamAxis(glm::degrees(angle), tan(glm::normalize(testPoints[index])));
-
-//    std::cout << "Angle: " << glm::degrees(angle) << std::endl;
     currentScene.updateCamLookUp(tangentVector, glm::vec3(0, 1, 0));
 
-//    std::cout << "Tangent Vector.x: " << tangentVector.x << " Tangent Vector.y: " << tangentVector.y << " Tangent Vector.z: " << tangentVector.z << std::endl;
 
-
-    //45 degrees downward in the positive X Z direction
-    // currentScene.rotateCam(2, 0);
-    // -----------------------------------
-
-    // ------------- UNCOMMENT HERE ------------
-//    for (glm::vec4 point : testPoints) {
-//        currentScene.updateCamPos(point);
-//        std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
-//        update();
-//    }
-     // ------------------------------------------
-//    std::cout << index << std::endl;
-//    std::cout << "Camera Position.x: " << currentScene.getCamera().getPosition().x << " Camera Position.y: " << currentScene.getCamera().getPosition().y << " Camera Position.z: " << currentScene.getCamera().getPosition().z << std::endl;
     update(); // asks for a PaintGL() call to occur
 }
 

@@ -1,7 +1,7 @@
 #ifndef BEZIER_H
 #define BEZIER_H
 
-#include <iostream>
+#include <cstdarg>
 #include <vector>
 #include <glm/glm.hpp>
 
