@@ -53,7 +53,7 @@ uniform bool useToonShading;
 
 vec4 getColor(float grass_cutoff, float rock_cutoff) {
     vec4 c0 = vec4(255.f, 255.f, 255.f, 255.f) / 255.f;
-    vec4 c1 = vec4(124.f, 252.f, 0.f, 255.f) / 255.f;
+    vec4 c1 = vec4(117.f, 255.f, 0.f, 255.f) / 255.f;
 
     if (worldPos[1] < grass_cutoff) return c1;
     if (worldPos[1] > rock_cutoff) return c0;
@@ -96,7 +96,7 @@ vec4 getBumpColor(float grass_cutoff, float rock_cutoff) {
 
 void main() {
 
-    float numToneLevels = 3.f; // number of tone levels for toon shading
+    float numToneLevels = 5.f; // number of tone levels for toon shading
 
     float grass_cutoff = 3.f; // everything below is grass
                               // everything between is blended
@@ -151,14 +151,15 @@ void main() {
 
         // add the diffuse term
         light_vec = normalize(light_vec);
-        vec4 diff = Kd * material.cDiffuse;
+        vec4 diff = vec4(Kd);
+        if (!useToonShading) diff *= material.cDiffuse;
         if (useTexMap && !useToonShading) {
             diff *= (1.f - material.blend);
             diff += material.blend * getTexColor(grass_cutoff, rock_cutoff);
         }
         if (useToonShading) {
             diff *= getColor(grass_cutoff, rock_cutoff);
-            diff *= floor(max(0.f, dot(normal, light_vec)) * numToneLevels) / numToneLevels;
+            diff *= ceil(max(0.f, dot(normal, light_vec)) * numToneLevels) / numToneLevels;
         } else {
             diff *= max(0.f, dot(normal, light_vec));
         }
