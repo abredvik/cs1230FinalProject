@@ -49,6 +49,18 @@ uniform sampler2D texMaps[8];
 uniform bool useBumpMap;
 uniform sampler2D bumpMaps[8];
 
+uniform bool useToonShading;
+
+vec4 getColor(float grass_cutoff, float rock_cutoff) {
+    vec4 c0 = vec4(100.f, 90.f, 91.f, 255.f) / 255.f;
+    vec4 c1 = vec4(124.f, 252.f, 0.f, 255.f) / 255.f;
+
+    if (worldPos[1] < grass_cutoff) return c1;
+    if (worldPos[1] > rock_cutoff) return c0;
+    float a = (worldPos[1] - grass_cutoff) / (rock_cutoff - grass_cutoff);
+    return a * c0 + (1.f - a) * c1;
+}
+
 vec4 getTexColor(float grass_cutoff, float rock_cutoff) {
     vec4 tex0, tex1;
     if (!isHighRes) {
@@ -84,13 +96,15 @@ vec4 getBumpColor(float grass_cutoff, float rock_cutoff) {
 
 void main() {
 
+    float numToneLevels = 5.f; // number of tone levels for toon shading
+
     float grass_cutoff = 3.f; // everything below is grass
                               // everything between is blended
     float rock_cutoff =  6.f; // everything above is rock
 
     // Remember that you need to renormalize vectors here if you want them to be normalized
     vec3 normal = normalize(worldNorm);
-    if (useBumpMap) {
+    if (useBumpMap && !useToonShading) {
         vec3 N = normalize(worldNorm);
         vec3 T = normalize(worldTangent);
         T = normalize(T - dot(T, N) * N);
@@ -138,11 +152,16 @@ void main() {
         // add the diffuse term
         light_vec = normalize(light_vec);
         vec4 diff = Kd * material.cDiffuse;
-        if (useTexMap) {
+        if (useTexMap && !useToonShading) {
             diff *= (1.f - material.blend);
             diff += material.blend * getTexColor(grass_cutoff, rock_cutoff);
         }
-        diff *= max(0.f, dot(normal, light_vec));
+        if (useToonShading) {
+            diff *= getColor(grass_cutoff, rock_cutoff);
+            diff *= floor(max(0.f, dot(normal, light_vec)) * numToneLevels) / numToneLevels;
+        } else {
+            diff *= max(0.f, dot(normal, light_vec));
+        }
 
         // add the specular term
 //        vec3 reflected = reflect(-light_vec, normal);
